@@ -44,6 +44,7 @@ Authentication
 
     print('XMPP token: ${nxResponse['token']}');
     print('JID: ${nxResponse['jid']}');
+    print('WebSocket URL: ${nxResponse['nxws']}');
 
 Messaging
 ---------

@@ -39,6 +39,7 @@ Authentication
 
     puts "XMPP token: #{nx_response['token']}"
     puts "JID: #{nx_response['jid']}"
+    puts "WebSocket URL: #{nx_response['nxws']}"
 
 Messaging
 ---------

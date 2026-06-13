@@ -6,20 +6,20 @@ This guide covers authentication and token management across all Nexacon SDKs.
 Overview
 --------
 
-Nexacon uses token-based authentication to secure API requests. The authentication flow involves:
+Nexacon uses NX token-based authentication to secure API requests. The authentication flow involves:
 
-1. Obtain NX token from your Nexacon dashboard
-2. Set the NX token for API requests
-3. Token usage for API requests
-4. Token refresh when expired
+1. Initialize client with API key and secret key
+2. Set the NX token (obtained from Nexacon dashboard)
+3. Use NX token for API requests
+4. Generate XMPP token for real-time features (messaging, calls)
 5. Logout and token invalidation
 
 Authentication Flow
 -------------------
 
-**Setting the NX Token**
+**Client Initialization**
 
-The NX token is obtained from your Nexacon dashboard and used to authenticate API requests:
+Initialize the client with your API credentials. The base URL is configured in the SDK:
 
 .. tabs::
 
@@ -30,18 +30,12 @@ The NX token is obtained from your Nexacon dashboard and used to authenticate AP
         secretKey: 'your_secret_key',
       );
 
-      // Set the NX token
-      client.setToken('your_nx_token');
-
    .. code-tab:: javascript
 
       const client = new NexaconClient({
         apiKey: 'your_api_key',
         secretKey: 'your_secret_key',
       });
-
-      // Set the NX token
-      client.setToken('your_nx_token');
 
    .. code-tab:: python
 
@@ -50,12 +44,27 @@ The NX token is obtained from your Nexacon dashboard and used to authenticate AP
           secret_key='your_secret_key'
       )
 
-      # Set the NX token
+**Setting the NX Token**
+
+The NX token is obtained from your Nexacon dashboard and used to authenticate API requests:
+
+.. tabs::
+
+   .. code-tab:: flutter
+
+      client.setToken('your_nx_token');
+
+   .. code-tab:: javascript
+
+      client.setToken('your_nx_token');
+
+   .. code-tab:: python
+
       client.set_token('your_nx_token')
 
 **Generating XMPP Token for Real-Time Features**
 
-For real-time features like messaging and calls, you need to generate an XMPP token:
+For real-time features like messaging and calls, generate a token using only the username:
 
 .. tabs::
 

@@ -39,6 +39,7 @@ Authentication
 
     Console.WriteLine($"XMPP token: {nxResponse.Token}");
     Console.WriteLine($"JID: {nxResponse.JID}");
+    Console.WriteLine($"WebSocket URL: {nxResponse.Nxws}");
 
 Messaging
 ---------

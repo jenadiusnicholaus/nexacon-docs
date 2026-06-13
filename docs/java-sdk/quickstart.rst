@@ -44,6 +44,7 @@ Authentication
 
     System.out.println("XMPP token: " + nxResponse.get("token"));
     System.out.println("JID: " + nxResponse.get("jid"));
+    System.out.println("WebSocket URL: " + nxResponse.get("nxws"));
 
 Messaging
 ---------

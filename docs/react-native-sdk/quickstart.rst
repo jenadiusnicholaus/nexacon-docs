@@ -44,6 +44,7 @@ Authentication
 
     console.log('XMPP token:', nxResponse.token);
     console.log('JID:', nxResponse.jid);
+    console.log('WebSocket URL:', nxResponse.nxws);
 
 Messaging
 ---------

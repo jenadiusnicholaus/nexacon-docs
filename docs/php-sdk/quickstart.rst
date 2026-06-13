@@ -41,6 +41,7 @@ Authentication
 
     echo 'XMPP token: ' . $nxResponse['token'];
     echo 'JID: ' . $nxResponse['jid'];
+    echo 'WebSocket URL: ' . $nxResponse['nxws'];
 
 Messaging
 ---------

@@ -46,6 +46,7 @@ Authentication
 
     fmt.Println("XMPP token:", nxResponse.Token)
     fmt.Println("JID:", nxResponse.JID)
+    fmt.Println("WebSocket URL:", nxResponse.Nxws)
 
 Messaging
 ---------

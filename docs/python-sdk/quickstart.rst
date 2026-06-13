@@ -44,6 +44,7 @@ Authentication
 
     print('XMPP token:', nx_response['token'])
     print('JID:', nx_response['jid'])
+    print('WebSocket URL:', nx_response['nxws'])
 
 Messaging
 ---------
