@@ -6,20 +6,14 @@ This guide covers authentication and token management across all Nexacon SDKs.
 Overview
 --------
 
-Nexacon uses NX token-based authentication to secure API requests. The authentication flow involves:
-
-1. Initialize client with API key and secret key
-2. Set the NX token (obtained from Nexacon dashboard)
-3. Use NX token for API requests
-4. Generate XMPP token for real-time features (messaging, calls)
-5. Logout and token invalidation
+Nexacon uses API key and secret key authentication for API requests. For real-time features like messaging and calls, an XMPP token is generated using the username.
 
 Authentication Flow
 -------------------
 
 **Client Initialization**
 
-Initialize the client with your API credentials. The base URL is configured in the SDK:
+Initialize the client with your API credentials:
 
 .. tabs::
 
@@ -44,27 +38,9 @@ Initialize the client with your API credentials. The base URL is configured in t
           secret_key='your_secret_key'
       )
 
-**Setting the NX Token**
-
-The NX token is obtained from your Nexacon dashboard and used to authenticate API requests:
-
-.. tabs::
-
-   .. code-tab:: flutter
-
-      client.setToken('your_nx_token');
-
-   .. code-tab:: javascript
-
-      client.setToken('your_nx_token');
-
-   .. code-tab:: python
-
-      client.set_token('your_nx_token')
-
 **Generating XMPP Token for Real-Time Features**
 
-For real-time features like messaging and calls, generate a token using only the username:
+For real-time features like messaging and calls, generate an XMPP token using only the username:
 
 .. tabs::
 
@@ -115,41 +91,29 @@ The XMPP token response includes:
 Token Management
 ----------------
 
-**Getting the Current Token**
+**Refreshing XMPP Token**
 
-Retrieve the currently set token:
-
-.. tabs::
-
-   .. code-tab:: flutter
-
-      final token = client.getToken();
-
-   .. code-tab:: javascript
-
-      const token = client.getToken();
-
-   .. code-tab:: python
-
-      token = client.get_token()
-
-**Clearing the Token**
-
-Clear the token when logging out:
+When the XMPP token expires, refresh it:
 
 .. tabs::
 
    .. code-tab:: flutter
 
-      client.setToken(null);
+      final newToken = await client.auth.refreshXMPPToken(
+        refreshToken: nxResponse['refresh_token'],
+      );
 
    .. code-tab:: javascript
 
-      client.setToken(null);
+      const newToken = await client.auth.refreshXMPPToken({
+        refreshToken: nxResponse.refresh_token,
+      });
 
    .. code-tab:: python
 
-      client.set_token(None)
+      new_token = client.auth.refresh_xmpp_token(
+          refresh_token=nx_response['refresh_token']
+      )
 
 Best Practices
 --------------
@@ -176,26 +140,26 @@ Best Practices
 Error Handling
 -------------
 
-**Invalid Token**
+**Invalid Credentials**
 
 .. code-block:: text
 
-    Error: Invalid token
-    Solution: Verify the NX token is correct and not expired
+    Error: Invalid API key or secret key
+    Solution: Verify your API credentials
+
+**Invalid Username**
+
+.. code-block:: text
+
+    Error: Username is required
+    Solution: Provide a valid username for XMPP token generation
 
 **Expired Token**
 
 .. code-block:: text
 
     Error: Token expired
-    Solution: Generate a new NX token from your dashboard
-
-**Missing Token**
-
-.. code-block:: text
-
-    Error: Token not set
-    Solution: Set the NX token using setToken()
+    Solution: Refresh the XMPP token using refreshXMPPToken()
 
 Example Implementation
 ----------------------
@@ -209,20 +173,7 @@ Example Implementation
 
       AuthService(this._client);
 
-      Future<void> setToken(String nxToken) async {
-        await _secureStorage.write(
-          key: 'nx_token',
-          value: nxToken,
-        );
-
-        _client.setToken(nxToken);
-      }
-
-      Future<String?> getToken() async {
-        return await _secureStorage.read(key: 'nx_token');
-      }
-
-      Future<void> generateXMPPToken(String username) async {
+      Future<Map<String, dynamic>> generateXMPPToken(String username) async {
         final nxResponse = await _client.auth.generateXMPPToken(
           username: username,
         );
@@ -240,12 +191,10 @@ Example Implementation
           value: nxResponse['nxws'],
         );
 
-        return nxResponse['token'];
+        return nxResponse;
       }
 
       Future<void> logout() async {
-        _client.setToken(null);
-        await _secureStorage.delete(key: 'nx_token');
         await _secureStorage.delete(key: 'xmpp_token');
         await _secureStorage.delete(key: 'jid');
         await _secureStorage.delete(key: 'nxws');

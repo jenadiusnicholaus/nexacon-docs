@@ -31,9 +31,6 @@ Authentication
 
 .. code-block:: csharp
 
-    // Set the NX token (obtained from Nexacon dashboard)
-    client.SetToken("your_nx_token");
-
     // Generate XMPP token for real-time features
     var nxResponse = await client.Auth.GenerateXMPPTokenAsync("+255788811191");
 
@@ -103,9 +100,6 @@ Complete Example
         {
             // Initialize client
             var client = new NexaconClient("your_api_key", "your_secret_key");
-
-            // Set NX token (obtained from Nexacon dashboard)
-            client.SetToken("your_nx_token");
 
             // Generate XMPP token for real-time features
             var nxResponse = await client.Auth.GenerateXMPPTokenAsync("+255788811191");

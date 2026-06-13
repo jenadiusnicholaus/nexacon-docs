@@ -34,9 +34,6 @@ Authentication
 
 .. code-block:: python
 
-    # Set the NX token (obtained from Nexacon dashboard)
-    client.set_token('your_nx_token')
-
     # Generate XMPP token for real-time features
     nx_response = client.auth.generate_xmpp_token(
         username='+255788811191'
@@ -120,9 +117,6 @@ Complete Example
             api_key='your_api_key',
             secret_key='your_secret_key'
         )
-
-        # Set NX token (obtained from Nexacon dashboard)
-        client.set_token('your_nx_token')
 
         # Generate XMPP token for real-time features
         nx_response = client.auth.generate_xmpp_token(

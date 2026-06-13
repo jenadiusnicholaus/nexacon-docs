@@ -35,9 +35,6 @@ Authentication
 
 .. code-block:: go
 
-    // Set the NX token (obtained from Nexacon dashboard)
-    client.SetToken("your_nx_token")
-
     // Generate XMPP token for real-time features
     nxResponse, err := client.Auth.GenerateXMPPToken("+255788811191")
     if err != nil {
@@ -134,9 +131,6 @@ Complete Example
     func main() {
         // Initialize client
         client := nexacon.NewClient("your_api_key", "your_secret_key")
-
-        // Set NX token (obtained from Nexacon dashboard)
-        client.SetToken("your_nx_token")
 
         // Generate XMPP token for real-time features
         nxResponse, err := client.Auth.GenerateXMPPToken("+255788811191")

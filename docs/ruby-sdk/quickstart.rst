@@ -31,9 +31,6 @@ Authentication
 
 .. code-block:: ruby
 
-    # Set the NX token (obtained from Nexacon dashboard)
-    client.set_token('your_nx_token')
-
     # Generate XMPP token for real-time features
     nx_response = client.auth.generate_xmpp_token('+255788811191')
 
@@ -97,9 +94,6 @@ Complete Example
 
     # Initialize client
     client = NexaconClient.new('your_api_key', 'your_secret_key')
-
-    # Set NX token (obtained from Nexacon dashboard)
-    client.set_token('your_nx_token')
 
     # Generate XMPP token for real-time features
     nx_response = client.auth.generate_xmpp_token('+255788811191')

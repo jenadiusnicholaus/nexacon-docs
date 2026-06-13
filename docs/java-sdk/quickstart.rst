@@ -34,9 +34,6 @@ Authentication
 
 .. code-block:: java
 
-    // Set the NX token (obtained from Nexacon dashboard)
-    client.setToken("your_nx_token");
-
     // Generate XMPP token for real-time features
     Map<String, Object> nxResponse = client.auth.generateXMPPToken(
         "+255788811191"
@@ -122,9 +119,6 @@ import java.util.Map;
                 "your_api_key",
                 "your_secret_key"
             );
-
-            // Set NX token (obtained from Nexacon dashboard)
-            client.setToken("your_nx_token");
 
             // Generate XMPP token for real-time features
             Map<String, Object> nxResponse = client.auth.generateXMPPToken(

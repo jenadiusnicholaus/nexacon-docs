@@ -33,9 +33,6 @@ Authentication
 
 .. code-block:: php
 
-    // Set the NX token (obtained from Nexacon dashboard)
-    $client->setToken('your_nx_token');
-
     // Generate XMPP token for real-time features
     $nxResponse = $client->auth->generateXMPPToken('+255788811191');
 
@@ -101,9 +98,6 @@ Complete Example
 
     // Initialize client
     $client = new NexaconClient('your_api_key', 'your_secret_key');
-
-    // Set NX token (obtained from Nexacon dashboard)
-    $client->setToken('your_nx_token');
 
     // Generate XMPP token for real-time features
     $nxResponse = $client->auth->generateXMPPToken('+255788811191');
