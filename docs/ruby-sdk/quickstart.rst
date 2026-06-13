@@ -31,14 +31,14 @@ Authentication
 
 .. code-block:: ruby
 
-    # Login user
-    token = client.auth.login('user@example.com', 'password')
+    # Set the NX token (obtained from Nexacon dashboard)
+    client.set_token('your_nx_token')
 
-    puts "Access token: #{token['access_token']}"
-    puts "Refresh token: #{token['refresh_token']}"
+    # Generate XMPP token for real-time features
+    nx_response = client.auth.generate_xmpp_token('+255788811191')
 
-    # Set token for subsequent requests
-    client.set_token(token['access_token'])
+    puts "XMPP token: #{nx_response['token']}"
+    puts "JID: #{nx_response['jid']}"
 
 Messaging
 ---------
@@ -97,9 +97,11 @@ Complete Example
     # Initialize client
     client = NexaconClient.new('your_api_key', 'your_secret_key')
 
-    # Authenticate
-    token = client.auth.login('user@example.com', 'password')
-    client.set_token(token['access_token'])
+    # Set NX token (obtained from Nexacon dashboard)
+    client.set_token('your_nx_token')
+
+    # Generate XMPP token for real-time features
+    nx_response = client.auth.generate_xmpp_token('+255788811191')
 
     # Send message
     client.messaging.send('+255788811191', 'Hello from Ruby!')

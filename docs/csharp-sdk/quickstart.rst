@@ -31,14 +31,14 @@ Authentication
 
 .. code-block:: csharp
 
-    // Login user
-    var token = await client.Auth.LoginAsync("user@example.com", "password");
+    // Set the NX token (obtained from Nexacon dashboard)
+    client.SetToken("your_nx_token");
 
-    Console.WriteLine($"Access token: {token.AccessToken}");
-    Console.WriteLine($"Refresh token: {token.RefreshToken}");
+    // Generate XMPP token for real-time features
+    var nxResponse = await client.Auth.GenerateXMPPTokenAsync("+255788811191");
 
-    // Set token for subsequent requests
-    client.SetToken(token.AccessToken);
+    Console.WriteLine($"XMPP token: {nxResponse.Token}");
+    Console.WriteLine($"JID: {nxResponse.JID}");
 
 Messaging
 ---------
@@ -103,9 +103,11 @@ Complete Example
             // Initialize client
             var client = new NexaconClient("your_api_key", "your_secret_key");
 
-            // Authenticate
-            var token = await client.Auth.LoginAsync("user@example.com", "password");
-            client.SetToken(token.AccessToken);
+            // Set NX token (obtained from Nexacon dashboard)
+            client.SetToken("your_nx_token");
+
+            // Generate XMPP token for real-time features
+            var nxResponse = await client.Auth.GenerateXMPPTokenAsync("+255788811191");
 
             // Send message
             await client.Messaging.SendAsync("+255788811191", "Hello from C#!");

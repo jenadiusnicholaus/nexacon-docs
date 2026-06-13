@@ -34,17 +34,16 @@ Authentication
 
 .. code-block:: typescript
 
-    // Login user
-    const token = await client.auth.login({
-      username: 'user@example.com',
-      password: 'password',
+    // Set the NX token (obtained from Nexacon dashboard)
+    client.setToken('your_nx_token');
+
+    // Generate XMPP token for real-time features
+    const nxResponse = await client.auth.generateXMPPToken({
+      username: '+255788811191',
     });
 
-    console.log('Access token:', token.access_token);
-    console.log('Refresh token:', token.refresh_token);
-
-    // Set token for subsequent requests
-    client.setToken(token.access_token);
+    console.log('XMPP token:', nxResponse.token);
+    console.log('JID:', nxResponse.jid);
 
 Messaging
 ---------
@@ -121,12 +120,13 @@ Complete Example
             secretKey: 'your_secret_key',
           });
 
-          const token = await client.auth.login({
-            username: 'user@example.com',
-            password: 'password',
-          });
+          // Set NX token (obtained from Nexacon dashboard)
+          client.setToken('your_nx_token');
 
-          client.setToken(token.access_token);
+          // Generate XMPP token for real-time features
+          const nxResponse = await client.auth.generateXMPPToken({
+            username: '+255788811191',
+          });
 
           await client.messaging.send({
             to: '+255788811191',

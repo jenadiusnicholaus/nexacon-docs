@@ -34,17 +34,16 @@ Authentication
 
 .. code-block:: python
 
-    # Login user
-    token = client.auth.login(
-        username='user@example.com',
-        password='password'
+    # Set the NX token (obtained from Nexacon dashboard)
+    client.set_token('your_nx_token')
+
+    # Generate XMPP token for real-time features
+    nx_response = client.auth.generate_xmpp_token(
+        username='+255788811191'
     )
 
-    print('Access token:', token['access_token'])
-    print('Refresh token:', token['refresh_token'])
-
-    # Set token for subsequent requests
-    client.set_token(token['access_token'])
+    print('XMPP token:', nx_response['token'])
+    print('JID:', nx_response['jid'])
 
 Messaging
 ---------
@@ -121,13 +120,13 @@ Complete Example
             secret_key='your_secret_key'
         )
 
-        # Authenticate
-        token = client.auth.login(
-            username='user@example.com',
-            password='password'
-        )
+        # Set NX token (obtained from Nexacon dashboard)
+        client.set_token('your_nx_token')
 
-        client.set_token(token['access_token'])
+        # Generate XMPP token for real-time features
+        nx_response = client.auth.generate_xmpp_token(
+            username='+255788811191'
+        )
 
         # Send message
         client.messaging.send(

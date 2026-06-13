@@ -34,14 +34,16 @@ Authentication
 
 .. code-block:: dart
 
-    // Login user
-    final token = await client.auth.login(
-      username: 'user@example.com',
-      password: 'password',
+    // Set the NX token (obtained from Nexacon dashboard)
+    client.setToken('your_nx_token');
+
+    // Generate XMPP token for real-time features
+    final nxResponse = await client.auth.generateXMPPToken(
+      username: '+255788811191',
     );
 
-    print('Access token: ${token['token']}');
-    print('JID: ${token['jid']}');
+    print('XMPP token: ${nxResponse['token']}');
+    print('JID: ${nxResponse['jid']}');
 
 Messaging
 ---------
@@ -149,10 +151,12 @@ Complete Example
         secretKey: 'your_secret_key',
       );
 
-      // Authenticate
-      final token = await client.auth.login(
-        username: 'user@example.com',
-        password: 'password',
+      // Set NX token (obtained from Nexacon dashboard)
+      client.setToken('your_nx_token');
+
+      // Generate XMPP token for real-time features
+      final nxResponse = await client.auth.generateXMPPToken(
+        username: '+255788811191',
       );
 
       // Send message
@@ -163,10 +167,6 @@ Complete Example
       );
 
       // Make a call
-      final nxResponse = await client.auth.generateXMPPToken(
-        username: '+255788811191',
-      );
-
       final callManager = await client.createCallManager(
         nxtoken: nxResponse['token'],
         nxid: nxResponse['jid'],

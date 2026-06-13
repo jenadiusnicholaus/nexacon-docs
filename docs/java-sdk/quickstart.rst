@@ -34,17 +34,16 @@ Authentication
 
 .. code-block:: java
 
-    // Login user
-    Map<String, Object> token = client.auth.login(
-        "user@example.com",
-        "password"
+    // Set the NX token (obtained from Nexacon dashboard)
+    client.setToken("your_nx_token");
+
+    // Generate XMPP token for real-time features
+    Map<String, Object> nxResponse = client.auth.generateXMPPToken(
+        "+255788811191"
     );
 
-    System.out.println("Access token: " + token.get("access_token"));
-    System.out.println("Refresh token: " + token.get("refresh_token"));
-
-    // Set token for subsequent requests
-    client.setToken((String) token.get("access_token"));
+    System.out.println("XMPP token: " + nxResponse.get("token"));
+    System.out.println("JID: " + nxResponse.get("jid"));
 
 Messaging
 ---------
@@ -123,13 +122,13 @@ import java.util.Map;
                 "your_secret_key"
             );
 
-            // Authenticate
-            Map<String, Object> token = client.auth.login(
-                "user@example.com",
-                "password"
-            );
+            // Set NX token (obtained from Nexacon dashboard)
+            client.setToken("your_nx_token");
 
-            client.setToken((String) token.get("access_token"));
+            // Generate XMPP token for real-time features
+            Map<String, Object> nxResponse = client.auth.generateXMPPToken(
+                "+255788811191"
+            );
 
             // Send message
             client.messaging.send(

@@ -33,14 +33,14 @@ Authentication
 
 .. code-block:: php
 
-    // Login user
-    $token = $client->auth->login('user@example.com', 'password');
+    // Set the NX token (obtained from Nexacon dashboard)
+    $client->setToken('your_nx_token');
 
-    echo 'Access token: ' . $token['access_token'];
-    echo 'Refresh token: ' . $token['refresh_token'];
+    // Generate XMPP token for real-time features
+    $nxResponse = $client->auth->generateXMPPToken('+255788811191');
 
-    // Set token for subsequent requests
-    $client->setToken($token['access_token']);
+    echo 'XMPP token: ' . $nxResponse['token'];
+    echo 'JID: ' . $nxResponse['jid'];
 
 Messaging
 ---------
@@ -101,9 +101,11 @@ Complete Example
     // Initialize client
     $client = new NexaconClient('your_api_key', 'your_secret_key');
 
-    // Authenticate
-    $token = $client->auth->login('user@example.com', 'password');
-    $client->setToken($token['access_token']);
+    // Set NX token (obtained from Nexacon dashboard)
+    $client->setToken('your_nx_token');
+
+    // Generate XMPP token for real-time features
+    $nxResponse = $client->auth->generateXMPPToken('+255788811191');
 
     // Send message
     $client->messaging->send('+255788811191', 'Hello from PHP!');

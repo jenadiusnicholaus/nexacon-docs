@@ -35,17 +35,17 @@ Authentication
 
 .. code-block:: go
 
-    // Login user
-    token, err := client.Auth.Login("user@example.com", "password")
+    // Set the NX token (obtained from Nexacon dashboard)
+    client.SetToken("your_nx_token")
+
+    // Generate XMPP token for real-time features
+    nxResponse, err := client.Auth.GenerateXMPPToken("+255788811191")
     if err != nil {
         log.Fatal(err)
     }
 
-    fmt.Println("Access token:", token.AccessToken)
-    fmt.Println("Refresh token:", token.RefreshToken)
-
-    // Set token for subsequent requests
-    client.SetToken(token.AccessToken)
+    fmt.Println("XMPP token:", nxResponse.Token)
+    fmt.Println("JID:", nxResponse.JID)
 
 Messaging
 ---------
@@ -134,13 +134,14 @@ Complete Example
         // Initialize client
         client := nexacon.NewClient("your_api_key", "your_secret_key")
 
-        // Authenticate
-        token, err := client.Auth.Login("user@example.com", "password")
+        // Set NX token (obtained from Nexacon dashboard)
+        client.SetToken("your_nx_token")
+
+        // Generate XMPP token for real-time features
+        nxResponse, err := client.Auth.GenerateXMPPToken("+255788811191")
         if err != nil {
             log.Fatal(err)
         }
-
-        client.SetToken(token.AccessToken)
 
         // Send message
         err = client.Messaging.Send("+255788811191", "Hello from Go!")
