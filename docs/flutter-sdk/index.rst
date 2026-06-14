@@ -79,14 +79,31 @@ Quick Start
 Platform Support
 ----------------
 
-| Platform | Status | Notes |
-|----------|--------|-------|
-| Android | ✅ Stable | Full support including foldable devices |
-| iOS | ✅ Stable | Full support |
-| Linux | ✅ Stable | Desktop support |
-| macOS | ✅ Stable | Desktop support |
-| Web | ✅ Stable | Browser support |
-| Windows | ✅ Stable | Desktop support |
+.. list-table:: Platform Support
+   :widths: 25 15 60
+   :header-rows: 1
+
+   * - Platform
+     - Status
+     - Notes
+   * - Android
+     - ✅ Stable
+     - Full support including foldable devices
+   * - iOS
+     - ✅ Stable
+     - Full support
+   * - Linux
+     - ✅ Stable
+     - Desktop support
+   * - macOS
+     - ✅ Stable
+     - Desktop support
+   * - Web
+     - ✅ Stable
+     - Browser support
+   * - Windows
+     - ✅ Stable
+     - Desktop support
 
 Features
 --------

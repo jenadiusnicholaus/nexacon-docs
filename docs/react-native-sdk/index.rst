@@ -75,10 +75,19 @@ Quick Start
 Platform Support
 ----------------
 
-| Platform | Status | Notes |
-|----------|--------|-------|
-| iOS | ✅ Stable | iOS 12.0+ |
-| Android | ✅ Stable | Android 5.0+ (API 21+) |
+.. list-table:: Platform Support
+   :widths: 25 15 60
+   :header-rows: 1
+
+   * - Platform
+     - Status
+     - Notes
+   * - iOS
+     - ✅ Stable
+     - iOS 12.0+
+   * - Android
+     - ✅ Stable
+     - Android 5.0+ (API 21+)
 
 Features
 --------

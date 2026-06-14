@@ -77,10 +77,19 @@ Quick Start
 Platform Support
 ----------------
 
-| Platform | Status | Notes |
-|----------|--------|-------|
-| Browser | ✅ Stable | Chrome, Firefox, Safari, Edge |
-| Node.js | ✅ Stable | Version 14.0.0+ |
+.. list-table:: Platform Support
+   :widths: 25 15 60
+   :header-rows: 1
+
+   * - Platform
+     - Status
+     - Notes
+   * - Browser
+     - ✅ Stable
+     - Chrome, Firefox, Safari, Edge
+   * - Node.js
+     - ✅ Stable
+     - Version 14.0.0+
 
 Features
 --------

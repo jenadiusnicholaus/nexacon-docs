@@ -57,11 +57,22 @@ Quick Start
 Platform Support
 ----------------
 
-| Platform | Status | Notes |
-|----------|--------|-------|
-| Windows | ✅ Stable | Full support |
-| Linux | ✅ Stable | Full support |
-| macOS | ✅ Stable | Full support |
+.. list-table:: Platform Support
+   :widths: 25 15 60
+   :header-rows: 1
+
+   * - Platform
+     - Status
+     - Notes
+   * - Windows
+     - ✅ Stable
+     - Full support
+   * - Linux
+     - ✅ Stable
+     - Full support
+   * - macOS
+     - ✅ Stable
+     - Full support
 
 Features
 --------

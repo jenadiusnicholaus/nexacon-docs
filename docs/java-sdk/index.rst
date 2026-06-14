@@ -78,10 +78,19 @@ Quick Start
 Platform Support
 ----------------
 
-| Platform | Status | Notes |
-|----------|--------|-------|
-| Android | ✅ Stable | Android 5.0+ (API 21+) |
-| JVM | ✅ Stable | Java 8+ |
+.. list-table:: Platform Support
+   :widths: 25 15 60
+   :header-rows: 1
+
+   * - Platform
+     - Status
+     - Notes
+   * - Android
+     - ✅ Stable
+     - Android 5.0+ (API 21+)
+   * - JVM
+     - ✅ Stable
+     - Java 8+
 
 Features
 --------
