@@ -278,6 +278,184 @@ Complete Example
       await sdk.dispose();
     }
 
+Real-World Usage
+----------------
+
+Here are production patterns from a real app using the SDK.
+
+**Outgoing Call with Pre-warming**
+
+Pre-warm the connection before the user taps call for faster setup:
+
+.. code-block:: dart
+
+    import 'package:nexacon_sdk/nexacon_sdk.dart';
+    import 'package:permission_handler/permission_handler.dart';
+
+    class CallService {
+      NexaconSDK? _sdk;
+
+      Future<void> prewarm(String phoneNumber, String name) async {
+        _sdk = NexaconSDK(apiKey: 'your_api_key', secretKey: 'your_secret_key');
+        _setupCallbacks();
+        await _sdk!.initialize(username: phoneNumber, name: name);
+      }
+
+      Future<void> makeCall({
+        required String username,
+        required String to,
+        String? name,
+        String? roomId,
+      }) async {
+        // Request permissions first
+        final micGranted = await Permission.microphone.request().isGranted;
+        if (!micGranted) return;
+
+        // Reuse pre-warmed connection or create new
+        if (_sdk == null) {
+          _sdk = NexaconSDK(apiKey: 'your_api_key', secretKey: 'your_secret_key');
+          _setupCallbacks();
+        }
+
+        await _sdk!.startCall(
+          to: to,
+          username: username,
+          name: name,
+          audio: true,
+          video: false,
+          roomId: roomId,
+        );
+      }
+
+      void _setupCallbacks() {
+        _sdk!.onCallStateChanged = (CallState state) {
+          if (state == CallState.connected) {
+            // Start call duration timer
+          } else if (state == CallState.calling) {
+            // Show ringing UI
+          }
+        };
+        _sdk!.onOtherUserJoined = () {
+          // Remote peer joined — stop ringing, show active call UI
+        };
+        _sdk!.onOtherUserLeft = () {
+          // Remote peer left — end the call
+        };
+        _sdk!.onCallEnded = (reason) {
+          // Clean up UI, show call summary
+        };
+        _sdk!.onError = (error) {
+          // Show error to user
+        };
+      }
+
+      Future<void> endCall() async {
+        await _sdk?.endCall();
+      }
+
+      Future<void> dispose() async {
+        await _sdk?.dispose();
+        _sdk = null;
+      }
+    }
+
+**Incoming Call from Push Notification (FCM)**
+
+When the app is opened from a push notification, use `acceptFromNotification`_ to bypass waiting for the signaling invitation:
+
+.. code-block:: dart
+
+    Future<void> acceptIncomingCallFromFCM({
+      required String phoneNumber,
+      required String channelName,
+      required String callerPhone,
+      String? name,
+    }) async {
+      // Pre-warm the connection as soon as the incoming call screen opens
+      await _sdk!.initialize(username: phoneNumber, name: name);
+
+      // If caller phone is available from FCM, use fast path
+      if (callerPhone.isNotEmpty) {
+        await _sdk!.acceptFromNotification(
+          username: phoneNumber,
+          roomId: channelName,
+          callerNxId: callerPhone,
+          name: name,
+          audio: true,
+          video: false,
+        );
+      } else {
+        // Fallback: wait for signaling invitation
+        await _sdk!.acceptWhenReady(
+          username: phoneNumber,
+          name: name,
+          audio: true,
+          video: false,
+        );
+      }
+    }
+
+**Incoming Call (Foreground)**
+
+When the app is already in the foreground, pre-warm and wait for the invitation:
+
+.. code-block:: dart
+
+    // 1. Pre-warm when incoming call screen opens
+    await _sdk!.initialize(username: phoneNumber, name: name);
+
+    // 2. When onIncomingCall fires, accept:
+    _sdk!.onIncomingCall = (callerName) {
+      _sdk!.acceptCall(audio: true, video: false);
+    };
+
+**Call Controls with UI State**
+
+.. code-block:: dart
+
+    bool isMuted = false;
+    bool isSpeakerOn = false;
+
+    void toggleMute() {
+      isMuted = !isMuted;
+      _sdk!.toggleMute(isMuted);
+    }
+
+    void toggleSpeaker() {
+      isSpeakerOn = !isSpeakerOn;
+      _sdk!.toggleSpeaker(isSpeakerOn);
+    }
+
+    // Switch camera (for video calls)
+    await _sdk!.switchCamera();
+
+    // Get call duration
+    final duration = sdk.callDuration;
+    final minutes = duration.inMinutes.toString().padLeft(2, '0');
+    final seconds = (duration.inSeconds % 60).toString().padLeft(2, '0');
+    print('Duration: $minutes:$seconds');
+
+**Notify Remote Accepted (FCM Fallback)**
+
+When the callee accepts via FCM but the signaling is delayed, notify the SDK:
+
+.. code-block:: dart
+
+    _sdk!.notifyRemoteAccepted();
+
+**Phone Number Formatting**
+
+The SDK uses phone numbers as NX IDs. Ensure numbers include the country code:
+
+.. code-block:: dart
+
+    String formatPhoneWithCountryCode(String phone) {
+      final digits = phone.replaceAll(RegExp(r'[^\d]'), '');
+      if (digits.startsWith('255')) return '+$digits';
+      if (digits.startsWith('0')) return '+255${digits.substring(1)}';
+      return '+255$digits';
+    }
+
 .. note::
    For real-time chat messaging (text messages, typing indicators, message history), use the separate `Nexacon Messaging SDK <https://nexacon-messaging.readthedocs.io/>`_.
 
