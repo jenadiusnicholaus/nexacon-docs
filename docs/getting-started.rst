@@ -43,35 +43,37 @@ Common Concepts
 
 .. code-block:: dart
 
-   final client = NexaconClient(
+   final sdk = NexaconSDK(
      apiKey: 'your_api_key',
      secretKey: 'your_secret_key',
    );
 
 **Authentication**
 
-Authenticate users with their credentials:
+The SDK handles authentication internally. Just provide your username when making a call:
 
 .. code-block:: dart
 
-   final token = await client.auth.login(
-     username: 'user@example.com',
-     password: 'password',
+   await sdk.startCall(
+     to: '+255788811191',
+     username: '+255123456789',
+     audio: true,
+     video: false,
    );
 
 **Making a Call**
 
 .. code-block:: dart
 
-   final callManager = await client.createCallManager(
-     nxtoken: token['token'],
-     nxid: token['jid'],
-     wsUrl: token['nxws'],
-   );
+   sdk.onCallStateChanged = (state) => print('Call state: $state');
+   sdk.onIncomingCall = (caller) => print('Incoming from: $caller');
+   sdk.onCallEnded = (reason) => print('Call ended: $reason');
 
-   await callManager.initiateCall(
+   await sdk.startCall(
      to: '+255788811191',
-     callType: 'video',
+     username: '+255123456789',
+     audio: true,
+     video: false,
    );
 
 .. note::

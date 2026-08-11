@@ -46,7 +46,7 @@ For real-time features like calls, generate an NX token using only the username:
 
    .. code-tab:: flutter
 
-      final nxResponse = await client.auth.generateNxToken(
+      final nxResponse = await client.auth.getNxToken(
         username: '+255788811191',
       );
 
@@ -58,7 +58,7 @@ For real-time features like calls, generate an NX token using only the username:
 
    .. code-tab:: javascript
 
-      const nxResponse = await client.auth.generateNxToken({
+      const nxResponse = await client.auth.getNxToken({
         username: '+255788811191',
       });
 
@@ -70,7 +70,7 @@ For real-time features like calls, generate an NX token using only the username:
 
    .. code-tab:: python
 
-      nx_response = client.auth.generate_nx_token(
+      nx_response = client.auth.get_nx_token(
           username='+255788811191'
       )
 
@@ -173,8 +173,8 @@ Example Implementation
 
       AuthService(this._client);
 
-      Future<Map<String, dynamic>> generateNxToken(String username) async {
-        final nxResponse = await _client.auth.generateNxToken(
+      Future<Map<String, dynamic>> getNxToken(String username) async {
+        final nxResponse = await _client.auth.getNxToken(
           username: username,
         );
 

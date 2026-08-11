@@ -47,28 +47,23 @@ Quick Start
 
     import 'package:nexacon_sdk/nexacon_sdk.dart';
 
-    // Initialize client
-    final client = NexaconClient(
+    // Create SDK instance
+    final sdk = NexaconSDK(
       apiKey: 'your_api_key',
       secretKey: 'your_secret_key',
     );
 
-    // Authenticate user
-    final token = await client.auth.login(
-      username: 'user@example.com',
-      password: 'password',
-    );
+    // Set callbacks
+    sdk.onCallStateChanged = (state) => print('Call state: $state');
+    sdk.onIncomingCall = (caller) => print('Incoming from: $caller');
+    sdk.onCallEnded = (reason) => print('Call ended: $reason');
 
-    // Initiate call
-    final callManager = await client.createCallManager(
-      nxtoken: token['token'],
-      nxid: token['jid'],
-      wsUrl: token['nxws'],
-    );
-
-    await callManager.initiateCall(
+    // Make a call
+    await sdk.startCall(
       to: '+255788811191',
-      callType: 'video',
+      username: '+255123456789',
+      audio: true,
+      video: false,
     );
 
 Platform Support

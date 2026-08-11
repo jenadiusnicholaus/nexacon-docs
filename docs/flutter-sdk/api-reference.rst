@@ -3,169 +3,193 @@ Flutter SDK API Reference
 
 This section provides detailed API reference for the Nexacon Flutter SDK.
 
-NexaconClient
--------------
+NexaconSDK
+----------
 
-.. dart:class:: NexaconClient
+.. dart:class:: NexaconSDK
 
-    Main client class for interacting with the Nexacon API.
+    Simplified high-level API for Nexacon SDK. Handles all complexity internally — just create an instance, set callbacks, and call ``startCall()``.
 
-.. dart:method:: NexaconClient({required String apiKey, required String secretKey, String? baseUrl})
+.. dart:method:: NexaconSDK({required String apiKey, required String secretKey, String baseUrl = 'your-domain.com/api/v1.0'})
 
-    Initialize a new NexaconClient instance.
+    Create a NexaconSDK instance.
 
-    :param apiKey: API key for authentication
+    :param apiKey: Your Nexacon API key
     :type apiKey: String
-    :param secretKey: Secret key for authentication
+    :param secretKey: Your Nexacon secret key
     :type secretKey: String
-    :param baseUrl: Base URL for API requests (default: your-domain.com/api/v1.0)
-    :type baseUrl: String?
+    :param baseUrl: Base URL for API requests (optional)
+    :type baseUrl: String
 
-.. dart:method:: Future<Map<String, dynamic>> auth.login({required String username, required String password})
+**Callbacks**
 
-    Login a user with username and password.
+All callbacks are optional. Set them before making or receiving calls.
 
-    :param username: User's username or phone number
+.. dart:method:: Function(CallState)? onCallStateChanged
+
+    Called when the call state changes (idle, calling, incoming, connected, ended).
+
+.. dart:method:: Function(String)? onIncomingCall
+
+    Called when an incoming call is received. Parameter is the caller's display name.
+
+.. dart:method:: Function(String)? onCallEnded
+
+    Called when a call ends. Parameter is the reason string.
+
+.. dart:method:: Function(String)? onError
+
+    Called when an error occurs. Parameter is the error message.
+
+.. dart:method:: Function()? onLocalStream
+
+    Called when the local media stream is ready.
+
+.. dart:method:: Function()? onRemoteStream
+
+    Called when the remote media stream is ready.
+
+.. dart:method:: Function()? onOtherUserJoined
+
+    Called when the remote peer joins the call.
+
+.. dart:method:: Function()? onOtherUserLeft
+
+    Called when the remote peer leaves the call.
+
+**Methods**
+
+.. dart:method:: Future<Map<String, dynamic>> initialize({required String username, String? name, String? nxtoken, String? nxid, String? wsUrl})
+
+    Initialize the SDK connection without starting a call. Use this for pre-warming (incoming calls) or before ``startCall()``.
+
+    :param username: Your username or phone number
     :type username: String
-    :param password: User's password
-    :type password: String
-    :returns: Authentication response with token
-    :rtype: Future<Map<String, dynamic>>
-
-.. dart:method:: Future<Map<String, dynamic>> auth.generateNxToken({required String username})
-
-    Generate NX token for signaling.
-
-    :param username: User's username or phone number
-    :type username: String
-    :returns: NX token response
-    :rtype: Future<Map<String, dynamic>>
-
-.. dart:method:: MessagingManager createMessagingManager()
-
-    Create a messaging manager instance.
-
-    .. note::
-       This is a basic messaging manager. For full-featured chat (message history, pagination, presence), use the separate `Nexacon Messaging SDK <https://nexacon-messaging.readthedocs.io/>`_.
-
-    :returns: MessagingManager instance
-    :rtype: MessagingManager
-
-.. dart:method:: Future<CallManager> createCallManager({String? nxtoken, String? nxid, String? wsUrl, String? name, Function(CallState)? onCallStateChanged, Function(String)? onIncomingCall, Function(String)? onCallEnded, Function(String)? onError, Function(MediaStream)? onLocalStream, Function(MediaStream)? onRemoteStream, Function()? onOtherUserJoined, Function()? onOtherUserLeft})
-
-    Create a call manager instance.
-
-    :param nxtoken: NX token for signaling
-    :type nxtoken: String?
-    :param nxid: NX ID (JID)
-    :type nxid: String?
-    :param wsUrl: WebSocket URL for signaling
-    :type wsUrl: String?
-    :param name: Display name for the caller
+    :param name: Your display name (optional)
     :type name: String?
-    :param onCallStateChanged: Callback for call state changes
-    :type onCallStateChanged: Function(CallState)?
-    :param onIncomingCall: Callback for incoming calls (caller name)
-    :type onIncomingCall: Function(String)?
-    :param onCallEnded: Callback for call ended (reason)
-    :type onCallEnded: Function(String)?
-    :param onError: Callback for errors
-    :type onError: Function(String)?
-    :param onLocalStream: Callback for local media stream
-    :type onLocalStream: Function(MediaStream)?
-    :param onRemoteStream: Callback for remote media stream
-    :type onRemoteStream: Function(MediaStream)?
-    :param onOtherUserJoined: Callback when remote peer joins
-    :type onOtherUserJoined: Function()?
-    :param onOtherUserLeft: Callback when remote peer leaves
-    :type onOtherUserLeft: Function()?
-    :returns: CallManager instance
-    :rtype: Future<CallManager>
+    :param nxtoken: Pre-fetched NX token (optional, skips API call)
+    :type nxtoken: String?
+    :param nxid: Pre-fetched NX ID (optional)
+    :type nxid: String?
+    :param wsUrl: Pre-fetched WebSocket URL (optional)
+    :type wsUrl: String?
+    :returns: NX credentials used (token, nxid, nxws)
+    :rtype: Future<Map<String, dynamic>>
 
-MessagingManager
----------------
+.. dart:method:: Future<void> startCall({required String to, required String username, String? name, bool audio = true, bool video = false, String? roomId})
 
-.. dart:class:: MessagingManager
+    Start an outgoing call. Handles everything internally: fetches NX token, connects, and initiates the call. Reuses pre-warmed connection if available.
 
-    Basic messaging service for sending and receiving messages.
-
-    .. note::
-       For full-featured chat messaging (message history with pagination, presence, typing indicators, delivery receipts), use the separate `Nexacon Messaging SDK <https://nexacon-messaging.readthedocs.io/>`_.
-
-.. dart:method:: Stream<Map<String, dynamic>> get messageStream
-
-    Stream of incoming messages.
-
-    :returns: Message stream
-    :rtype: Stream<Map<String, dynamic>>
-
-.. dart:method:: Stream<Map<String, dynamic>> get typingStream
-
-    Stream of typing indicators.
-
-    :returns: Typing stream
-    :rtype: Stream<Map<String, dynamic>>
-
-.. dart:method:: Stream<Map<String, dynamic>> get readReceiptStream
-
-    Stream of read receipts.
-
-    :returns: Read receipt stream
-    :rtype: Stream<Map<String, dynamic>>
-
-.. dart:method:: Stream<Map<String, dynamic>> get deliveryReceiptStream
-
-    Stream of delivery receipts.
-
-    :returns: Delivery receipt stream
-    :rtype: Stream<Map<String, dynamic>>
-
-.. dart:method:: Stream<Map<String, dynamic>> get presenceStream
-
-    Stream of presence updates.
-
-    :returns: Presence stream
-    :rtype: Stream<Map<String, dynamic>>
-
-.. dart:method:: void sendMessage({required String to, required String message, String messageType = 'chat'})
-
-    Send a message to a recipient.
-
-    :param to: Recipient's phone number or JID
+    :param to: Recipient's phone number
     :type to: String
-    :param message: Message content
-    :type message: String
-    :param messageType: Message type (default: 'chat')
-    :type messageType: String
+    :param username: Your username or phone number
+    :type username: String
+    :param name: Your display name (optional)
+    :type name: String?
+    :param audio: Enable audio (default: true)
+    :type audio: bool
+    :param video: Enable video (default: false)
+    :type video: bool
+    :param roomId: Custom room ID (auto-generated if omitted)
+    :type roomId: String?
 
-.. dart:method:: void sendTypingIndicator(String to, {bool isTyping = true})
+.. dart:method:: Future<void> acceptCall({bool audio = true, bool video = false})
 
-    Send a typing indicator.
+    Accept an incoming call. Must be called after ``onIncomingCall`` has fired.
 
-    :param to: Recipient's phone number or JID
-    :type to: String
-    :param isTyping: Whether the user is typing
-    :type isTyping: bool
+    :param audio: Enable audio (default: true)
+    :type audio: bool
+    :param video: Enable video (default: false)
+    :type video: bool
 
-.. dart:method:: void sendReadReceipt(String to, String messageId)
+.. dart:method:: Future<void> acceptWhenReady({required String username, String? name, bool audio = true, bool video = false, Duration timeout = const Duration(seconds: 30)})
 
-    Send a read receipt.
+    Initialize and automatically accept the incoming call once the call invitation signal arrives. This is the recommended way to handle incoming calls when the app is already in the foreground.
 
-    :param to: Recipient's phone number or JID
-    :type to: String
-    :param messageId: Message ID to mark as read
-    :type messageId: String
+    :param username: Your username or phone number
+    :type username: String
+    :param name: Your display name (optional)
+    :type name: String?
+    :param audio: Enable audio (default: true)
+    :type audio: bool
+    :param video: Enable video (default: false)
+    :type video: bool
+    :param timeout: How long to wait for the call invitation (default: 30s)
+    :type timeout: Duration
 
-.. dart:method:: void dispose()
+.. dart:method:: Future<void> acceptFromNotification({required String username, required String roomId, required String callerNxId, String? callerName, String? name, bool audio = true, bool video = false})
 
-    Clean up stream controllers.
+    Accept an incoming call using data from a push notification payload. Use this when FCM already delivered the call data so you don't need to wait for the signaling invitation.
 
-CallManager
------------
+    :param username: Your username or phone number
+    :type username: String
+    :param roomId: Room ID from the FCM push payload
+    :type roomId: String
+    :param callerNxId: Caller's NX ID from the FCM push payload
+    :type callerNxId: String
+    :param callerName: Caller's display name (optional)
+    :type callerName: String?
+    :param name: Your display name (optional)
+    :type name: String?
+    :param audio: Enable audio (default: true)
+    :type audio: bool
+    :param video: Enable video (default: false)
+    :type video: bool
 
-.. dart:class:: CallManager
+.. dart:method:: void rejectCall()
 
-    Calling service for P2P audio/video calls using WebRTC.
+    Reject an incoming call.
+
+.. dart:method:: void notifyRemoteAccepted()
+
+    Notify the SDK that the remote party accepted the call (FCM/backend fallback).
+
+.. dart:method:: Future<void> endCall()
+
+    End the current call. Nulls out the internal CallManager so the next call gets a fresh instance.
+
+.. dart:method:: void toggleMute(bool muted)
+
+    Mute or unmute the microphone.
+
+    :param muted: ``true`` to mute, ``false`` to unmute
+    :type muted: bool
+
+.. dart:method:: void toggleSpeaker(bool enabled)
+
+    Enable or disable the speakerphone.
+
+    :param enabled: ``true`` to enable speaker, ``false`` to disable
+    :type enabled: bool
+
+.. dart:method:: void toggleVideo(bool enabled)
+
+    Enable or disable the camera.
+
+    :param enabled: ``true`` to enable camera, ``false`` to disable
+    :type enabled: bool
+
+.. dart:method:: Future<void> switchCamera()
+
+    Switch between front and back camera.
+
+.. dart:method:: Duration get callDuration
+
+    Get the current call duration.
+
+    :returns: Call duration
+    :rtype: Duration
+
+.. dart:method:: NexaconClient? get client
+
+    Get the underlying NexaconClient for advanced use cases (devices, rooms, presence).
+
+    :returns: NexaconClient instance or null
+    :rtype: NexaconClient?
+
+.. dart:method:: Future<void> dispose()
+
+    Clean up all resources (CallManager, client, NX connection). Call this when done with the SDK.
 
 CallState Enum
 ^^^^^^^^^^^^^^
@@ -180,82 +204,101 @@ CallState Enum
     * ``CallState.connected`` - Call is connected
     * ``CallState.ended`` - Call has ended
 
+NexaconClient (Advanced)
+------------------------
+
+.. dart:class:: NexaconClient
+
+    Low-level client class for interacting with the Nexacon API. Access via ``sdk.client`` or create directly for advanced use cases.
+
+.. dart:method:: NexaconClient({required String apiKey, required String secretKey, String? baseUrl})
+
+    Initialize a new NexaconClient instance.
+
+    :param apiKey: API key for authentication
+    :type apiKey: String
+    :param secretKey: Secret key for authentication
+    :type secretKey: String
+    :param baseUrl: Base URL for API requests (default: your-domain.com/api/v1.0)
+    :type baseUrl: String?
+
+.. dart:method:: Future<Map<String, dynamic>> auth.getNxToken({required String username})
+
+    Get NX token for real-time features (calls and signaling).
+
+    :param username: User's username or phone number
+    :type username: String
+    :returns: NX token response containing ``token``, ``jid``, and ``nxws``
+    :rtype: Future<Map<String, dynamic>>
+
+.. dart:method:: Future<Map<String, dynamic>> auth.refreshNxToken({required String refreshToken})
+
+    Refresh an expired NX token.
+
+    :param refreshToken: Refresh token from previous auth response
+    :type refreshToken: String
+    :returns: New NX token response
+    :rtype: Future<Map<String, dynamic>>
+
+.. dart:method:: MessagingManager createMessagingManager()
+
+    Create a basic messaging manager instance.
+
+    .. note::
+       For full-featured chat (message history, pagination, presence), use the separate `Nexacon Messaging SDK <https://nexacon-messaging.readthedocs.io/>`_.
+
+    :returns: MessagingManager instance
+    :rtype: MessagingManager
+
+.. dart:method:: Future<CallManager> createCallManager({String? nxtoken, String? nxid, String? wsUrl, String? name, Function(CallState)? onCallStateChanged, Function(String)? onIncomingCall, Function(String)? onCallEnded, Function(String)? onError, Function(MediaStream)? onLocalStream, Function(MediaStream)? onRemoteStream, Function()? onOtherUserJoined, Function()? onOtherUserLeft})
+
+    Create a call manager instance directly. Prefer using ``NexaconSDK`` instead.
+
+    :returns: CallManager instance
+    :rtype: Future<CallManager>
+
+CallManager (Advanced)
+----------------------
+
+.. dart:class:: CallManager
+
+    Low-level calling service for P2P audio/video calls using WebRTC. Access via ``sdk.client?.createCallManager()`` or use ``NexaconSDK`` which wraps this internally.
+
 .. dart:method:: Future<bool> initialize({required String nxid, required String nxtoken, required String wsUrl, String? name})
 
     Initialize the call manager with NX credentials.
-
-    :param nxid: NX ID (JID)
-    :type nxid: String
-    :param nxtoken: NX token for authentication
-    :type nxtoken: String
-    :param wsUrl: WebSocket URL for signaling
-    :type wsUrl: String
-    :param name: Display name (defaults to JID username)
-    :type name: String?
-    :returns: Whether initialization succeeded
-    :rtype: Future<bool>
 
 .. dart:method:: Future<void> initiateCall({required String to, bool audio = true, bool video = true, String? roomId})
 
     Initiate an outgoing P2P call.
 
-    :param to: Recipient's phone number or JID
-    :type to: String
-    :param audio: Whether to include audio (default: true)
-    :type audio: bool
-    :param video: Whether to include video (default: true)
-    :type video: bool
-    :param roomId: Custom room ID (auto-generated if omitted)
-    :type roomId: String?
-    :returns: Future
-    :rtype: Future<void>
-
 .. dart:method:: void prepareIncomingCall({required String roomId, required String callerNxId, String callerName = 'Unknown'})
 
     Inject incoming call state from push notification data.
-
-    :param roomId: Room ID from the push payload
-    :type roomId: String
-    :param callerNxId: Caller's NX ID from the push payload
-    :type callerNxId: String
-    :param callerName: Caller's display name
-    :type callerName: String
 
 .. dart:method:: Future<void> acceptCall({bool audio = true, bool video = true})
 
     Accept an incoming call.
 
-    :param audio: Whether to include audio (default: true)
-    :type audio: bool
-    :param video: Whether to include video (default: true)
-    :type video: bool
-    :returns: Future
-    :rtype: Future<void>
-
 .. dart:method:: void rejectCall()
 
     Reject an incoming call.
+
+.. dart:method:: void notifyRemoteAccepted()
+
+    Notify that the remote party accepted (FCM fallback).
 
 .. dart:method:: Future<void> endCall()
 
     End the current call.
 
-    :returns: Future
-    :rtype: Future<void>
-
 .. dart:method:: void toggleAudio(bool enabled)
 
-    Enable/disable audio (mute).
-
-    :param enabled: Whether audio is enabled
-    :type enabled: bool
+    Enable/disable audio.
 
 .. dart:method:: void toggleVideo(bool enabled)
 
     Enable/disable video.
-
-    :param enabled: Whether video is enabled
-    :type enabled: bool
 
 .. dart:method:: Future<void> switchCamera()
 
@@ -265,61 +308,79 @@ CallState Enum
 
     Set video resolution and frame rate.
 
-    :param width: Video width in pixels (default: 1280)
-    :type width: int
-    :param height: Video height in pixels (default: 720)
-    :type height: int
-    :param fps: Frame rate (default: 30)
-    :type fps: int
-
 .. dart:method:: void setAudioBitrate(int kbps)
 
     Set audio bitrate.
-
-    :param kbps: Bitrate in kbps
-    :type kbps: int
 
 .. dart:method:: void setVideoBitrate(int kbps)
 
     Set video bitrate.
 
-    :param kbps: Bitrate in kbps
-    :type kbps: int
-
 .. dart:method:: void startCallStatsCollection({Duration interval = const Duration(seconds: 2)})
 
     Start collecting WebRTC call statistics.
-
-    :param interval: Polling interval for stats
-    :type interval: Duration
 
 .. dart:method:: CallState get callState
 
     Get current call state.
 
-    :returns: Current call state
-    :rtype: CallState
-
 .. dart:method:: Duration get callDuration
 
     Get current call duration.
-
-    :returns: Call duration
-    :rtype: Duration
 
 .. dart:method:: Stream<Map<String, dynamic>>? get callStatsStream
 
     Stream of call statistics.
 
-    :returns: Stats stream or null
-    :rtype: Stream<Map<String, dynamic>>?
-
 .. dart:method:: WebRTCService? get webrtcService
 
     Get WebRTC service instance for UI integration.
 
-    :returns: WebRTC service or null
-    :rtype: WebRTCService?
+MessagingManager (Basic)
+------------------------
+
+.. dart:class:: MessagingManager
+
+    Basic messaging service for sending and receiving messages.
+
+    .. note::
+       For full-featured chat messaging (message history with pagination, presence, typing indicators, delivery receipts), use the separate `Nexacon Messaging SDK <https://nexacon-messaging.readthedocs.io/>`_.
+
+.. dart:method:: Stream<Map<String, dynamic>> get messageStream
+
+    Stream of incoming messages.
+
+.. dart:method:: Stream<Map<String, dynamic>> get typingStream
+
+    Stream of typing indicators.
+
+.. dart:method:: Stream<Map<String, dynamic>> get readReceiptStream
+
+    Stream of read receipts.
+
+.. dart:method:: Stream<Map<String, dynamic>> get deliveryReceiptStream
+
+    Stream of delivery receipts.
+
+.. dart:method:: Stream<Map<String, dynamic>> get presenceStream
+
+    Stream of presence updates.
+
+.. dart:method:: void sendMessage({required String to, required String message, String messageType = 'chat'})
+
+    Send a message to a recipient.
+
+.. dart:method:: void sendTypingIndicator(String to, {bool isTyping = true})
+
+    Send a typing indicator.
+
+.. dart:method:: void sendReadReceipt(String to, String messageId)
+
+    Send a read receipt.
+
+.. dart:method:: void dispose()
+
+    Clean up stream controllers.
 
 Devices
 -------
@@ -334,44 +395,21 @@ Devices
     :type platform: String
     :param deviceId: Unique device identifier
     :type deviceId: String?
-    :returns: Future
-    :rtype: Future<void>
 
 .. dart:method:: Future<void> devices.unregister(String fcmToken)
 
     Unregister a device from push notifications.
-
-    :param fcmToken: FCM token
-    :type fcmToken: String
-    :returns: Future
-    :rtype: Future<void>
 
 Rooms
 -----
 
 .. dart:method:: Future<Map<String, dynamic>> rooms.create({required String name, String? description, required List<String> members})
 
-    Create a new group chat room.
-
-    :param name: Room name
-    :type name: String
-    :param description: Room description
-    :type description: String?
-    :param members: Array of member phone numbers
-    :type members: List<String>
-    :returns: Room information
-    :rtype: Future<Map<String, dynamic>>
+    Create a new group call room.
 
 .. dart:method:: Future<Map<String, dynamic>> rooms.list({int page = 1, int pageSize = 50})
 
     List available rooms.
-
-    :param page: Page number (default: 1)
-    :type page: int
-    :param pageSize: Number of rooms per page (default: 50)
-    :type pageSize: int
-    :returns: List of rooms
-    :rtype: Future<Map<String, dynamic>>
 
 Presence
 --------
@@ -380,19 +418,9 @@ Presence
 
     Get the presence status of a user.
 
-    :param userId: User's phone number or JID
-    :type userId: String
-    :returns: Presence information
-    :rtype: Future<Map<String, dynamic>>
-
 .. dart:method:: Future<Map<String, dynamic>> presence.getLastSeen(String userId)
 
     Get the last seen timestamp of a user.
-
-    :param userId: User's phone number or JID
-    :type userId: String
-    :returns: Last seen information
-    :rtype: Future<Map<String, dynamic>>
 
 FoldStateService
 ----------------
@@ -405,36 +433,21 @@ FoldStateService
 
     Stream of fold state changes.
 
-    :returns: Fold state stream
-    :rtype: Stream<FoldState>
-
 .. dart:method:: FoldState get currentState
 
     Get the current fold state.
-
-    :returns: Current fold state
-    :rtype: FoldState
 
 .. dart:method:: bool get isFolded
 
     Check if device is folded.
 
-    :returns: True if folded
-    :rtype: bool
-
 .. dart:method:: bool get isFlat
 
     Check if device is flat.
 
-    :returns: True if flat
-    :rtype: bool
-
 .. dart:method:: bool get isHalfOpen
 
     Check if device is half-open.
-
-    :returns: True if half-open
-    :rtype: bool
 
 FoldState Enum
 --------------

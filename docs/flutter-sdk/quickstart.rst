@@ -3,86 +3,197 @@ Flutter SDK Quick Start
 
 Get up and running with the Nexacon Flutter SDK in minutes.
 
-Initialize the Client
----------------------
+Create the SDK Instance
+-----------------------
 
 .. code-block:: dart
 
     import 'package:nexacon_sdk/nexacon_sdk.dart';
 
-    final client = NexaconClient(
+    final sdk = NexaconSDK(
       apiKey: 'your_api_key',
       secretKey: 'your_secret_key',
     );
 
-Available Services
-------------------
-
-Once the client is initialized, all services are available:
+Set Up Callbacks
+----------------
 
 .. code-block:: dart
 
-    client.auth        // Authentication and token management
-    client.calls       // Audio/video calls (P2P and group)
-    client.devices     // Device registration for push notifications
-    client.rooms       // Group call rooms
-    client.presence    // User presence and online status
+    sdk.onCallStateChanged = (CallState state) {
+      print('Call state: $state');
+      if (state == CallState.connected) {
+        // Call connected — start your UI timer
+      }
+    };
 
-Authentication
---------------
+    sdk.onIncomingCall = (callerName) {
+      print('Incoming call from: $callerName');
+      // Show incoming call UI
+    };
+
+    sdk.onCallEnded = (reason) {
+      print('Call ended: $reason');
+      // Clean up call UI
+    };
+
+    sdk.onError = (error) {
+      print('Error: $error');
+    };
+
+    sdk.onLocalStream = () {
+      // Local media stream is ready — render local preview
+    };
+
+    sdk.onRemoteStream = () {
+      // Remote media stream is ready — render remote video
+    };
+
+    sdk.onOtherUserJoined = () {
+      // Remote peer has joined the call
+    };
+
+    sdk.onOtherUserLeft = () {
+      // Remote peer has left the call
+    };
+
+Request Permissions
+-------------------
+
+Before making or receiving calls, request microphone and camera permissions:
 
 .. code-block:: dart
 
-    // Generate NX token for real-time features
-    final nxResponse = await client.auth.generateNxToken(
-      username: '+255788811191',
-    );
+    // Using permission_handler package
+    final micStatus = await Permission.microphone.request();
+    final camStatus = await Permission.camera.request();
 
-    print('NX token: ${nxResponse['token']}');
-    print('NX ID: ${nxResponse['nxid']}');
-    print('WebSocket URL: ${nxResponse['nxws']}');
+    if (!micStatus.isGranted) {
+      // Handle denied permission
+    }
 
-Calls
------
+Make an Outgoing Call
+---------------------
 
 .. code-block:: dart
 
-    // Generate NX token
-    final nxResponse = await client.auth.generateNxToken(
-      username: '+255788811191',
-    );
-
-    // Create CallManager
-    final callManager = await client.createCallManager(
-      nxtoken: nxResponse['token'],
-      nxid: nxResponse['nxid'],
-      wsUrl: nxResponse['nxws'],
-      onCallStateChanged: (state) => print('State: $state'),
-      onIncomingCall: (caller) => print('Incoming from: $caller'),
-      onCallEnded: (reason) => print('Call ended: $reason'),
-      onLocalStream: (stream) => print('Local stream ready'),
-      onRemoteStream: (stream) => print('Remote stream ready'),
-    );
-
-    // Make a video call
-    await callManager.initiateCall(
+    // startCall() handles everything: fetches NX token, connects, and initiates the call
+    await sdk.startCall(
       to: '+255788811191',
-      video: true,
+      username: '+255123456789',
+      name: 'John Doe',
+      audio: true,
+      video: false,
     );
 
-    // Accept an incoming call
-    // await callManager.acceptCall(audio: true, video: true);
+Pre-warm for Outgoing Calls
+---------------------------
 
-    // End a call
-    await callManager.endCall();
+For faster call setup, pre-warm the connection before the user taps call:
+
+.. code-block:: dart
+
+    // Call this when the user opens the dialer screen
+    await sdk.initialize(
+      username: '+255123456789',
+      name: 'John Doe',
+    );
+
+    // Later, when the user taps call:
+    await sdk.startCall(
+      to: '+255788811191',
+      username: '+255123456789',
+    );
+
+Receive an Incoming Call
+-----------------------
+
+.. code-block:: dart
+
+    // Pre-warm the connection when the incoming call screen opens
+    // This ensures the call invitation is received before the user taps Accept
+    await sdk.initialize(
+      username: '+255123456789',
+      name: 'John Doe',
+    );
+
+    // When onIncomingCall fires, accept the call:
+    await sdk.acceptCall(audio: true, video: false);
+
+Accept from Push Notification
+-----------------------------
+
+When the app is opened from a push notification (FCM), use `acceptFromNotification`_ to bypass waiting for the signaling invitation:
+
+.. code-block:: dart
+
+    await sdk.acceptFromNotification(
+      username: '+255123456789',
+      roomId: channelName,         // from FCM payload
+      callerNxId: callerPhone,     // from FCM payload
+      name: 'John Doe',
+      audio: true,
+      video: false,
+    );
+
+Or use `acceptWhenReady`_ to wait for the signaling invitation automatically:
+
+.. code-block:: dart
+
+    await sdk.acceptWhenReady(
+      username: '+255123456789',
+      name: 'John Doe',
+      audio: true,
+      video: false,
+      timeout: Duration(seconds: 30),
+    );
+
+Call Controls
+-------------
+
+.. code-block:: dart
+
+    // Mute / unmute microphone
+    sdk.toggleMute(true);   // muted
+    sdk.toggleMute(false);  // unmuted
+
+    // Toggle speaker
+    sdk.toggleSpeaker(true);   // speaker on
+    sdk.toggleSpeaker(false);  // speaker off
+
+    // Toggle video
+    sdk.toggleVideo(true);   // camera on
+    sdk.toggleVideo(false);  // camera off
+
+    // Switch camera (front/back)
+    await sdk.switchCamera();
+
+    // Get call duration
+    final duration = sdk.callDuration;
+    print('Duration: ${duration.inSeconds}s');
+
+End a Call
+----------
+
+.. code-block:: dart
+
+    await sdk.endCall();
+
+    // Clean up when done with the SDK
+    await sdk.dispose();
 
 Device Registration
 -------------------
 
+Access the low-level client for device registration and other services:
+
 .. code-block:: dart
 
+    // Access the underlying NexaconClient for advanced use cases
+    final client = sdk.client;
+
     // Register device for push notifications
-    await client.devices.register(
+    await client?.devices.register(
       fcmToken: 'device_fcm_token',
       platform: 'android',
     );
@@ -92,25 +203,29 @@ Presence
 
 .. code-block:: dart
 
+    final client = sdk.client;
+
     // Get user presence
-    final presence = await client.presence.getStatus('+255788811191');
-    print('Online: ${presence['online']}');
+    final presence = await client?.presence.getStatus('+255788811191');
+    print('Online: ${presence?['online']}');
 
     // Get last seen
-    final lastSeen = await client.presence.getLastSeen('+255788811191');
-    print('Last seen: ${lastSeen['timestamp']}');
+    final lastSeen = await client?.presence.getLastSeen('+255788811191');
+    print('Last seen: ${lastSeen?['timestamp']}');
 
 Foldable Device Support
 -----------------------
 
 .. code-block:: dart
 
+    final client = sdk.client;
+
     // Get current fold state
-    final foldState = client.foldStateService.currentState;
+    final foldState = client?.foldStateService.currentState;
     print('Fold state: $foldState');
 
     // Listen for fold state changes
-    client.foldStateService.foldStateStream.listen((state) {
+    client?.foldStateService.foldStateStream.listen((state) {
       print('Fold state changed: $state');
     });
 
@@ -120,40 +235,47 @@ Complete Example
 .. code-block:: dart
 
     import 'package:nexacon_sdk/nexacon_sdk.dart';
+    import 'package:permission_handler/permission_handler.dart';
 
     void main() async {
-      // Initialize client
-      final client = NexaconClient(
+      // 1. Create SDK instance
+      final sdk = NexaconSDK(
         apiKey: 'your_api_key',
         secretKey: 'your_secret_key',
       );
 
-      // Generate NX token for real-time features
-      final nxResponse = await client.auth.generateNxToken(
-        username: '+255788811191',
-      );
+      // 2. Set up callbacks
+      sdk.onCallStateChanged = (state) {
+        print('Call state: $state');
+        if (state == CallState.connected) {
+          print('Call connected!');
+        }
+      };
+      sdk.onIncomingCall = (callerName) {
+        print('Incoming call from: $callerName');
+      };
+      sdk.onCallEnded = (reason) {
+        print('Call ended: $reason');
+      };
+      sdk.onLocalStream = () => print('Local stream ready');
+      sdk.onRemoteStream = () => print('Remote stream ready');
 
-      // Create CallManager with callbacks
-      final callManager = await client.createCallManager(
-        nxtoken: nxResponse['token'],
-        nxid: nxResponse['nxid'],
-        wsUrl: nxResponse['nxws'],
-        onCallStateChanged: (state) => print('Call state: $state'),
-        onIncomingCall: (caller) => print('Incoming call from: $caller'),
-        onCallEnded: (reason) => print('Call ended: $reason'),
-        onLocalStream: (stream) {
-          // Render local video preview
-        },
-        onRemoteStream: (stream) {
-          // Render remote video
-        },
-      );
+      // 3. Request permissions
+      await Permission.microphone.request();
+      await Permission.camera.request();
 
-      // Make a video call
-      await callManager.initiateCall(
+      // 4. Make a call
+      await sdk.startCall(
         to: '+255788811191',
-        video: true,
+        username: '+255123456789',
+        name: 'John Doe',
+        audio: true,
+        video: false,
       );
+
+      // 5. End the call when done
+      await sdk.endCall();
+      await sdk.dispose();
     }
 
 .. note::
