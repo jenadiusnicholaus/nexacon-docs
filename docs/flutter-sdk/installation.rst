@@ -28,7 +28,7 @@ Or add it manually to your `pubspec.yaml`:
 .. code-block:: yaml
 
     dependencies:
-      nexacon_calls: ^1.3.9
+      nexacon_calls: ^1.3.10
 
 Platform Configuration
 ---------------------
