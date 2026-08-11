@@ -8,7 +8,7 @@ Create the SDK Instance
 
 .. code-block:: dart
 
-    import 'package:nexacon_sdk/nexacon_sdk.dart';
+    import 'package:nexacon_calls/nexacon_calls.dart';
 
     final sdk = NexaconSDK(
       apiKey: 'your_api_key',
@@ -234,7 +234,7 @@ Complete Example
 
 .. code-block:: dart
 
-    import 'package:nexacon_sdk/nexacon_sdk.dart';
+    import 'package:nexacon_calls/nexacon_calls.dart';
     import 'package:permission_handler/permission_handler.dart';
 
     void main() async {
@@ -289,7 +289,7 @@ Pre-warm the connection before the user taps call for faster setup:
 
 .. code-block:: dart
 
-    import 'package:nexacon_sdk/nexacon_sdk.dart';
+    import 'package:nexacon_calls/nexacon_calls.dart';
     import 'package:permission_handler/permission_handler.dart';
 
     class CallService {

@@ -270,7 +270,7 @@ When reporting issues, provide a minimal reproduction:
 .. code-block:: dart
 
     // Minimal reproduction example
-    import 'package:nexacon_sdk/nexacon_sdk.dart';
+    import 'package:nexacon_calls/nexacon_calls.dart';
 
     void main() async {
       final client = NexaconClient(

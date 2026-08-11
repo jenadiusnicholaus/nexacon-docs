@@ -22,13 +22,13 @@ Flutter SDK
 
 .. code-block:: bash
 
-    flutter pub add nexacon_sdk
+    flutter pub add nexacon_calls
 
 **Verification**
 
 .. code-block:: dart
 
-    import 'package:nexacon_sdk/nexacon_sdk.dart';
+    import 'package:nexacon_calls/nexacon_calls.dart';
 
     void main() {
       print('Nexacon SDK installed successfully');

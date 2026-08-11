@@ -36,7 +36,7 @@ Installation
 
 .. code-block:: bash
 
-    flutter pub add nexacon_sdk
+    flutter pub add nexacon_calls
 
 See `Installation Guide <installation.html>`_ for detailed setup instructions.
 
@@ -45,7 +45,7 @@ Quick Start
 
 .. code-block:: dart
 
-    import 'package:nexacon_sdk/nexacon_sdk.dart';
+    import 'package:nexacon_calls/nexacon_calls.dart';
 
     // Create SDK instance
     final sdk = NexaconSDK(

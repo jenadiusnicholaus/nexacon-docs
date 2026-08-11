@@ -21,14 +21,14 @@ Add the SDK to your Flutter project:
 
 .. code-block:: bash
 
-    flutter pub add nexacon_sdk
+    flutter pub add nexacon_calls
 
 Or add it manually to your `pubspec.yaml`:
 
 .. code-block:: yaml
 
     dependencies:
-      nexacon_sdk: ^1.3.9
+      nexacon_calls: ^1.3.9
 
 Platform Configuration
 ---------------------
@@ -98,7 +98,7 @@ Verify the installation by importing the SDK:
 
 .. code-block:: dart
 
-    import 'package:nexacon_sdk/nexacon_sdk.dart';
+    import 'package:nexacon_calls/nexacon_calls.dart';
 
     void main() {
       print('Nexacon SDK installed successfully');
