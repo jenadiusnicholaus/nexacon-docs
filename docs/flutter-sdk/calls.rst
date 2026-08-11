@@ -23,12 +23,33 @@ Quick Example
       nxtoken: token['token'],
       nxid: token['jid'],
       wsUrl: token['nxws'],
+      onCallStateChanged: (state) => print('State: $state'),
+      onIncomingCall: (caller) => print('Incoming from: $caller'),
+      onLocalStream: (stream) {
+        // Render local video preview
+      },
+      onRemoteStream: (stream) {
+        // Render remote video
+      },
     );
 
-    // Make a call
+    // Make a video call
     await callManager.initiateCall(
       to: '+255788811191',
-      callType: 'video',
+      video: true,
     );
+
+    // Accept an incoming call
+    // await callManager.acceptCall(audio: true, video: true);
+
+    // Toggle audio/video
+    callManager.toggleAudio(false);  // Mute
+    callManager.toggleVideo(false);  // Camera off
+
+    // Switch camera
+    await callManager.switchCamera();
+
+    // End the call
+    await callManager.endCall();
 
 See `Quick Start <quickstart.html>`_ for more examples.

@@ -1,7 +1,7 @@
 Rooms
 =====
 
-The rooms service provides functionality for creating and managing group chat rooms.
+The rooms service provides functionality for creating and managing group call rooms.
 
 For detailed API reference, see `API Reference <api-reference.html#rooms>`_.
 

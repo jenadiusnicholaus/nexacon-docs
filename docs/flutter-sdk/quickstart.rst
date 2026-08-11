@@ -23,10 +23,9 @@ Once the client is initialized, all services are available:
 .. code-block:: dart
 
     client.auth        // Authentication and token management
-    client.calls       // Audio/video calls
-    client.messaging   // Send messages and manage contacts
+    client.calls       // Audio/video calls (P2P and group)
     client.devices     // Device registration for push notifications
-    client.rooms       // Group chat rooms
+    client.rooms       // Group call rooms
     client.presence    // User presence and online status
 
 Authentication
@@ -42,32 +41,6 @@ Authentication
     print('XMPP token: ${nxResponse['token']}');
     print('JID: ${nxResponse['jid']}');
     print('WebSocket URL: ${nxResponse['nxws']}');
-
-Messaging
----------
-
-.. code-block:: dart
-
-    // Create messaging manager
-    final messagingManager = client.createMessagingManager();
-
-    // Listen for incoming messages
-    messagingManager.messageStream.listen((message) {
-      print('Received: ${message['message']}');
-    });
-
-    // Send a message
-    await messagingManager.sendMessage(
-      to: '+255788811191',
-      message: 'Hello!',
-    );
-
-    // Get message history
-    final messages = await messagingManager.getHistory(
-      recipient: '+255788811191',
-      page: 1,
-      pageSize: 50,
-    );
 
 Calls
 -----
@@ -86,13 +59,19 @@ Calls
       wsUrl: nxResponse['nxws'],
       onCallStateChanged: (state) => print('State: $state'),
       onIncomingCall: (caller) => print('Incoming from: $caller'),
+      onCallEnded: (reason) => print('Call ended: $reason'),
+      onLocalStream: (stream) => print('Local stream ready'),
+      onRemoteStream: (stream) => print('Remote stream ready'),
     );
 
-    // Make a call
+    // Make a video call
     await callManager.initiateCall(
       to: '+255788811191',
-      callType: 'video',
+      video: true,
     );
+
+    // Accept an incoming call
+    // await callManager.acceptCall(audio: true, video: true);
 
     // End a call
     await callManager.endCall();
@@ -154,30 +133,35 @@ Complete Example
         username: '+255788811191',
       );
 
-      // Send message
-      final messagingManager = client.createMessagingManager();
-      await messagingManager.sendMessage(
-        to: '+255788811191',
-        message: 'Hello from Flutter!',
-      );
-
-      // Make a call
+      // Create CallManager with callbacks
       final callManager = await client.createCallManager(
         nxtoken: nxResponse['token'],
         nxid: nxResponse['jid'],
         wsUrl: nxResponse['nxws'],
+        onCallStateChanged: (state) => print('Call state: $state'),
+        onIncomingCall: (caller) => print('Incoming call from: $caller'),
+        onCallEnded: (reason) => print('Call ended: $reason'),
+        onLocalStream: (stream) {
+          // Render local video preview
+        },
+        onRemoteStream: (stream) {
+          // Render remote video
+        },
       );
 
+      // Make a video call
       await callManager.initiateCall(
         to: '+255788811191',
-        callType: 'video',
+        video: true,
       );
     }
+
+.. note::
+   For real-time chat messaging (text messages, typing indicators, message history), use the separate `Nexacon Messaging SDK <https://nexacon-messaging.readthedocs.io/>`_.
 
 Next Steps
 ----------
 
 * `API Reference <api-reference.html>`_ - Detailed API documentation
-* `Messaging <messaging.html>`_ - Messaging features
 * `Calls <calls.html>`_ - Calling features
 * `Best Practices <../guides/best-practices.html>`_ - Recommended practices
