@@ -16,7 +16,7 @@ Additional SDKs for other platforms will be added here once tested and stable.
 
 ## Documentation
 
-The official documentation is hosted at [https://docs.nexacon.com](https://docs.nexacon.com).
+The official documentation is hosted at [https://docs.nexacon.africa](https://docs.nexacon.africa).
 
 ### Building Locally
 
@@ -70,9 +70,9 @@ To contribute to the documentation:
 
 ## Support
 
-- **Documentation**: https://docs.nexacon.com
+- **Documentation**: https://docs.nexacon.africa
 - **GitHub Issues**: https://github.com/nexacon/nexacon-docs/issues
-- **Email**: support@nexacon.com
+- **Email**: support@nexacon.africa
 
 ## License
 

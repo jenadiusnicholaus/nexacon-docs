@@ -259,7 +259,7 @@ If you can't resolve the issue:
    - Code snippet
 
 2. Create a support request:
-   - Email: support@nexacon.com
+   - Email: support@nexacon.africa
    - GitHub: https://github.com/nexacon/nexacon-docs/issues
    - Include all gathered information
 

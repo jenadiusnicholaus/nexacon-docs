@@ -48,7 +48,7 @@ API Credentials
 
 After installing the SDK, you will need to configure it with your API credentials:
 
-1. Sign up for a Nexacon account at https://nexacon.com
+1. Sign up for a Nexacon account at https://nexacon.africa
 2. Navigate to the Developer Portal
 3. Create a new application
 4. Copy your API Key and Secret Key

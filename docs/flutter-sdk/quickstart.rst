@@ -33,13 +33,13 @@ Authentication
 
 .. code-block:: dart
 
-    // Generate XMPP token for real-time features
-    final nxResponse = await client.auth.generateXMPPToken(
+    // Generate NX token for real-time features
+    final nxResponse = await client.auth.generateNxToken(
       username: '+255788811191',
     );
 
-    print('XMPP token: ${nxResponse['token']}');
-    print('JID: ${nxResponse['jid']}');
+    print('NX token: ${nxResponse['token']}');
+    print('NX ID: ${nxResponse['nxid']}');
     print('WebSocket URL: ${nxResponse['nxws']}');
 
 Calls
@@ -48,14 +48,14 @@ Calls
 .. code-block:: dart
 
     // Generate NX token
-    final nxResponse = await client.auth.generateXMPPToken(
+    final nxResponse = await client.auth.generateNxToken(
       username: '+255788811191',
     );
 
     // Create CallManager
     final callManager = await client.createCallManager(
       nxtoken: nxResponse['token'],
-      nxid: nxResponse['jid'],
+      nxid: nxResponse['nxid'],
       wsUrl: nxResponse['nxws'],
       onCallStateChanged: (state) => print('State: $state'),
       onIncomingCall: (caller) => print('Incoming from: $caller'),
@@ -128,15 +128,15 @@ Complete Example
         secretKey: 'your_secret_key',
       );
 
-      // Generate XMPP token for real-time features
-      final nxResponse = await client.auth.generateXMPPToken(
+      // Generate NX token for real-time features
+      final nxResponse = await client.auth.generateNxToken(
         username: '+255788811191',
       );
 
       // Create CallManager with callbacks
       final callManager = await client.createCallManager(
         nxtoken: nxResponse['token'],
-        nxid: nxResponse['jid'],
+        nxid: nxResponse['nxid'],
         wsUrl: nxResponse['nxws'],
         onCallStateChanged: (state) => print('Call state: $state'),
         onIncomingCall: (caller) => print('Incoming call from: $caller'),

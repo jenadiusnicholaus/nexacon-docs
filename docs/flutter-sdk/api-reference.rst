@@ -32,13 +32,13 @@ NexaconClient
     :returns: Authentication response with token
     :rtype: Future<Map<String, dynamic>>
 
-.. dart:method:: Future<Map<String, dynamic>> auth.generateXMPPToken({required String username})
+.. dart:method:: Future<Map<String, dynamic>> auth.generateNxToken({required String username})
 
-    Generate XMPP token for signaling.
+    Generate NX token for signaling.
 
     :param username: User's username or phone number
     :type username: String
-    :returns: XMPP token response
+    :returns: NX token response
     :rtype: Future<Map<String, dynamic>>
 
 .. dart:method:: MessagingManager createMessagingManager()

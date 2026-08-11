@@ -70,6 +70,6 @@ Quick Links
 Support
 -------
 
-* **Documentation**: https://docs.nexacon.com
+* **Documentation**: https://docs.nexacon.africa
 * **GitHub Issues**: https://github.com/nexacon/nexacon-docs/issues
-* **Email**: support@nexacon.com
+* **Email**: support@nexacon.africa

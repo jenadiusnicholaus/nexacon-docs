@@ -158,6 +158,6 @@ See the `Flutter SDK examples <https://github.com/nexacon/nexacon-flutter-sdk/tr
 Support
 -------
 
-* **Documentation**: https://docs.nexacon.com
+* **Documentation**: https://docs.nexacon.africa
 * **GitHub**: https://github.com/nexacon/nexacon-flutter-sdk
 * **Issues**: https://github.com/nexacon/nexacon-flutter-sdk/issues
