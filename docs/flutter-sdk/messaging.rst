@@ -1,36 +1,52 @@
 Messaging
 =========
 
-The messaging service provides real-time communication capabilities including sending messages, message history, typing indicators, read receipts, and presence management.
+.. note::
+   Real-time chat messaging is handled by the separate **Nexacon Messaging SDK** (``nexacon_messaging``), not the Flutter Call SDK.
 
-For detailed API reference, see `API Reference <api-reference.html#messagingmanager>`_.
+   The Nexacon Messaging SDK provides:
 
-Features
---------
+   * Send and receive text messages over WebSocket
+   * Message history with offset-based pagination
+   * Typing indicators (XEP-0085)
+   * Delivery and read receipts (XEP-0184)
+   * Presence tracking (online/away/busy/offline)
+   * Auto-reconnect with exponential backoff
 
-* **Send Messages** - Send text messages to users
-* **Message History** - Retrieve message history with pagination
-* **Typing Indicators** - Real-time typing status
-* **Read Receipts** - Track when messages are read
-* **Delivery Receipts** - Track when messages are delivered
-* **Presence** - User online status
+**Installation**
 
-Quick Example
--------------
+.. code-block:: bash
+
+    flutter pub add nexacon_messaging
+
+**Documentation**
+
+Full documentation is available at `nexacon-messaging.readthedocs.io <https://nexacon-messaging.readthedocs.io/>`_.
+
+**Quick Example**
 
 .. code-block:: dart
 
-    final messagingManager = client.createMessagingManager();
+    import 'package:nexacon_messaging/nexacon_messaging.dart';
 
-    // Listen for incoming messages
-    messagingManager.messageStream.listen((message) {
-      print('Received: ${message['message']}');
+    final messaging = NexaconMessaging(
+      apiKey: 'your_api_key',
+      secretKey: 'your_secret_key',
+    );
+
+    await messaging.connectWithToken(
+      username: '+255123456789',
+      apiKey: 'your_api_key',
+      secretKey: 'your_secret_key',
+    );
+
+    messaging.messageStream.listen((msg) {
+      print('From ${msg.from}: ${msg.body}');
     });
 
-    // Send a message
-    await messagingManager.sendMessage(
-      to: '+255788811191',
+    await messaging.sendMessage(
+      to: '+255987654321',
       message: 'Hello!',
     );
 
-See `Quick Start <quickstart.html>`_ for more examples.
+See `Nexacon Messaging SDK docs <https://nexacon-messaging.readthedocs.io/>`_ for complete guides and API reference.

@@ -1,20 +1,18 @@
 # Nexacon Documentation
 
-Official documentation for all Nexacon SDKs across multiple platforms and programming languages.
+Official documentation for Nexacon SDKs.
 
 ## Overview
 
-This repository contains comprehensive documentation for the Nexacon API SDKs, including:
+This repository contains comprehensive documentation for the Nexacon SDKs.
 
-- **Flutter SDK** - Cross-platform mobile and desktop applications
-- **JavaScript SDK** - Browser and Node.js applications
-- **React Native SDK** - iOS and Android mobile applications
-- **Python SDK** - Server-side and desktop applications
-- **Java SDK** - Android and server-side applications
-- **Go SDK** - Server-side and microservices
-- **PHP SDK** - Web applications
-- **Ruby SDK** - Web applications
-- **C# SDK** - .NET applications
+- **Flutter SDK** - Cross-platform audio/video calling for Android, iOS, Linux, macOS, Web, and Windows
+
+Additional SDKs for other platforms will be added here once tested and stable.
+
+## Related SDKs
+
+- **Nexacon Messaging SDK** - Real-time chat messaging with presence, typing indicators, and message history. Docs at [nexacon-messaging.readthedocs.io](https://nexacon-messaging.readthedocs.io/)
 
 ## Documentation
 
@@ -47,27 +45,18 @@ nexacon-docs/
 │   ├── index.rst            # Main landing page
 │   ├── getting-started.rst  # Quick start overview
 │   ├── installation.rst     # Installation guide
-│   ├── flutter-sdk/         # Flutter SDK documentation
-│   ├── js-sdk/              # JavaScript SDK documentation
-│   ├── react-native-sdk/    # React Native SDK documentation
-│   ├── python-sdk/         # Python SDK documentation
-│   ├── java-sdk/           # Java SDK documentation
-│   ├── go-sdk/             # Go SDK documentation
-│   ├── php-sdk/            # PHP SDK documentation
-│   ├── ruby-sdk/           # Ruby SDK documentation
-│   ├── csharp-sdk/         # C# SDK documentation
+│   ├── flutter-sdk/         # Flutter SDK documentation (calls)
 │   └── guides/             # Additional guides
 ```
 
 ## Features
 
-All Nexacon SDKs provide the following core features:
+The Nexacon Flutter SDK provides the following core features:
 
 - **Authentication** - User login, token management, and session handling
-- **Messaging** - Send and receive messages with delivery receipts
 - **Calls** - Audio and video calling with WebRTC
 - **Devices** - Register devices for push notifications
-- **Rooms** - Group chat management
+- **Rooms** - Group call management
 - **Presence** - User online status and last seen
 
 ## Contributing

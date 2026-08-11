@@ -60,14 +60,6 @@ html_theme_options = {
 html_sidebars = {
     '**': ['globaltoc.html', 'relations.html', 'sourcelink.html', 'searchbox.html'],
     'flutter-sdk/*': ['localtoc.html', 'relations.html', 'sourcelink.html', 'searchbox.html'],
-    'js-sdk/*': ['localtoc.html', 'relations.html', 'sourcelink.html', 'searchbox.html'],
-    'react-native-sdk/*': ['localtoc.html', 'relations.html', 'sourcelink.html', 'searchbox.html'],
-    'python-sdk/*': ['localtoc.html', 'relations.html', 'sourcelink.html', 'searchbox.html'],
-    'java-sdk/*': ['localtoc.html', 'relations.html', 'sourcelink.html', 'searchbox.html'],
-    'go-sdk/*': ['localtoc.html', 'relations.html', 'sourcelink.html', 'searchbox.html'],
-    'php-sdk/*': ['localtoc.html', 'relations.html', 'sourcelink.html', 'searchbox.html'],
-    'ruby-sdk/*': ['localtoc.html', 'relations.html', 'sourcelink.html', 'searchbox.html'],
-    'csharp-sdk/*': ['localtoc.html', 'relations.html', 'sourcelink.html', 'searchbox.html'],
 }
 
 # -- Options for LaTeX output ------------------------------------------------

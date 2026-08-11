@@ -1,7 +1,7 @@
 Flutter SDK
 ===========
 
-The Nexacon Flutter SDK provides a comprehensive solution for integrating the Nexacon API into Flutter applications across Android, iOS, Linux, macOS, Web, and Windows platforms.
+The Nexacon Flutter SDK provides audio and video calling capabilities for Flutter applications across Android, iOS, Linux, macOS, Web, and Windows platforms.
 
 .. toctree::
    :maxdepth: 2
@@ -10,7 +10,6 @@ The Nexacon Flutter SDK provides a comprehensive solution for integrating the Ne
    installation
    quickstart
    api-reference
-   messaging
    calls
    devices
    rooms
@@ -24,11 +23,13 @@ The Flutter SDK offers:
 
 * **Cross-platform support** - Android, iOS, Linux, macOS, Web, Windows
 * **Type-safe API** - Full Dart type definitions
-* **Real-time messaging** - Message streams, typing indicators, read receipts
 * **Audio/Video calling** - WebRTC-based P2P and group calls
 * **Device management** - Push notification registration
 * **Foldable device support** - Detect fold state on Android
 * **Presence** - User online status and last seen
+
+.. note::
+   This SDK is for **audio/video calls only**. For real-time chat messaging (text messages, typing indicators, delivery receipts, message history), use the separate `Nexacon Messaging SDK <https://nexacon-messaging.readthedocs.io/>`_.
 
 Installation
 ------------
@@ -56,12 +57,6 @@ Quick Start
     final token = await client.auth.login(
       username: 'user@example.com',
       password: 'password',
-    );
-
-    // Send message
-    await client.messaging.send(
-      to: '+255788811191',
-      message: 'Hello!',
     );
 
     // Initiate call
@@ -114,15 +109,6 @@ Features
 * Token management and refresh
 * Session handling
 
-**Messaging**
-
-* Send and receive messages
-* Message history with filters
-* Typing indicators
-* Read receipts
-* Delivery receipts
-* Presence management
-
 **Calls**
 
 * P2P audio/video calls
@@ -139,9 +125,8 @@ Features
 
 **Rooms**
 
-* Create and manage group chat rooms
+* Create and manage group call rooms
 * Room member management
-* Room messages
 
 **Presence**
 
@@ -155,8 +140,13 @@ Features
 * Real-time fold state updates
 * Android native integration
 
-API Reference
+Related SDKs
 ------------
+
+* **Nexacon Messaging SDK** - Real-time chat messaging with presence, typing indicators, delivery receipts, and message history. See `nexacon-messaging docs <https://nexacon-messaging.readthedocs.io/>`_.
+
+API Reference
+-------------
 
 See `API Reference <api-reference.html>`_ for detailed API documentation.
 
