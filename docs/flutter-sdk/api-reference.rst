@@ -240,16 +240,6 @@ NexaconClient (Advanced)
     :returns: New NX token response
     :rtype: Future<Map<String, dynamic>>
 
-.. dart:method:: MessagingManager createMessagingManager()
-
-    Create a basic messaging manager instance.
-
-    .. note::
-       For full-featured chat (message history, pagination, presence), use the separate `Nexacon Messaging SDK <https://nexacon-messaging.readthedocs.io/>`_.
-
-    :returns: MessagingManager instance
-    :rtype: MessagingManager
-
 .. dart:method:: Future<CallManager> createCallManager({String? nxtoken, String? nxid, String? wsUrl, String? name, Function(CallState)? onCallStateChanged, Function(String)? onIncomingCall, Function(String)? onCallEnded, Function(String)? onError, Function(MediaStream)? onLocalStream, Function(MediaStream)? onRemoteStream, Function()? onOtherUserJoined, Function()? onOtherUserLeft})
 
     Create a call manager instance directly. Prefer using ``NexaconSDK`` instead.
@@ -336,51 +326,8 @@ CallManager (Advanced)
 
     Get WebRTC service instance for UI integration.
 
-MessagingManager (Basic)
-------------------------
-
-.. dart:class:: MessagingManager
-
-    Basic messaging service for sending and receiving messages.
-
-    .. note::
-       For full-featured chat messaging (message history with pagination, presence, typing indicators, delivery receipts), use the separate `Nexacon Messaging SDK <https://nexacon-messaging.readthedocs.io/>`_.
-
-.. dart:method:: Stream<Map<String, dynamic>> get messageStream
-
-    Stream of incoming messages.
-
-.. dart:method:: Stream<Map<String, dynamic>> get typingStream
-
-    Stream of typing indicators.
-
-.. dart:method:: Stream<Map<String, dynamic>> get readReceiptStream
-
-    Stream of read receipts.
-
-.. dart:method:: Stream<Map<String, dynamic>> get deliveryReceiptStream
-
-    Stream of delivery receipts.
-
-.. dart:method:: Stream<Map<String, dynamic>> get presenceStream
-
-    Stream of presence updates.
-
-.. dart:method:: void sendMessage({required String to, required String message, String messageType = 'chat'})
-
-    Send a message to a recipient.
-
-.. dart:method:: void sendTypingIndicator(String to, {bool isTyping = true})
-
-    Send a typing indicator.
-
-.. dart:method:: void sendReadReceipt(String to, String messageId)
-
-    Send a read receipt.
-
-.. dart:method:: void dispose()
-
-    Clean up stream controllers.
+.. note::
+   **Real-Time Messaging**: For chat messaging (text messages, typing indicators, read receipts, presence, message history), use the separate `Nexacon Messaging SDK <https://nexacon-messaging.readthedocs.io/>`_.
 
 Devices
 -------
