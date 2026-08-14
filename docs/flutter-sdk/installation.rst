@@ -12,7 +12,6 @@ Requirements
   * Linux: GTK development libraries
   * macOS: Xcode command-line tools
   * Windows: Visual Studio 2022 with C++ workload
-  * Web: Chrome or Edge browser
 
 Installation
 ------------
@@ -28,7 +27,7 @@ Or add it manually to your `pubspec.yaml`:
 .. code-block:: yaml
 
     dependencies:
-      nexacon_calls: ^1.3.10
+      nexacon_calls: ^1.3.16
 
 Platform Configuration
 ---------------------
@@ -66,11 +65,6 @@ Add the following to your `ios/Runner/Info.plist`:
     <string>Camera access is required for video calls</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>Microphone access is required for audio calls</string>
-
-Web
-^^^
-
-No additional configuration required.
 
 Linux
 ^^^^^

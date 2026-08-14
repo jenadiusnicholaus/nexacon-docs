@@ -1,7 +1,7 @@
 Flutter SDK
 ===========
 
-The Nexacon Flutter SDK provides audio and video calling capabilities for Flutter applications across Android, iOS, Linux, macOS, Web, and Windows platforms.
+The Nexacon Flutter SDK provides audio and video calling capabilities for Flutter applications across Android, iOS, Linux, macOS, and Windows platforms.
 
 .. toctree::
    :maxdepth: 2
@@ -21,7 +21,7 @@ Overview
 
 The Flutter SDK offers:
 
-* **Cross-platform support** - Android, iOS, Linux, macOS, Web, Windows
+* **Cross-platform support** - Android, iOS, Linux, macOS, Windows
 * **Type-safe API** - Full Dart type definitions
 * **Audio/Video calling** - WebRTC-based P2P and group calls
 * **Device management** - Push notification registration
@@ -88,9 +88,6 @@ Platform Support
    * - macOS
      - ✅ Stable
      - Desktop support
-   * - Web
-     - ✅ Stable
-     - Browser support
    * - Windows
      - ✅ Stable
      - Desktop support
@@ -148,11 +145,11 @@ See `API Reference <api-reference.html>`_ for detailed API documentation.
 Examples
 --------
 
-See the `Flutter SDK examples <https://github.com/nexacon/nexacon-flutter-sdk/tree/main/example>`_ for complete sample applications.
+See the `Flutter SDK examples <https://github.com/jenadiusnicholaus/nexacon-flutter-sdk/tree/main/example>`_ for complete sample applications.
 
 Support
 -------
 
 * **Documentation**: https://docs.nexacon.africa
-* **GitHub**: https://github.com/nexacon/nexacon-flutter-sdk
-* **Issues**: https://github.com/nexacon/nexacon-flutter-sdk/issues
+* **GitHub**: https://github.com/jenadiusnicholaus/nexacon-flutter-sdk
+* **Issues**: https://github.com/jenadiusnicholaus/nexacon-flutter-sdk/issues

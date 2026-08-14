@@ -25,6 +25,12 @@ Welcome to the official Nexacon documentation. This site provides comprehensive 
    guides/best-practices
    guides/troubleshooting
 
+.. toctree::
+   :maxdepth: 2
+   :caption: API Reference:
+
+   rest-api
+
 Overview
 --------
 
@@ -33,7 +39,7 @@ Nexacon provides SDKs for integrating audio/video calling, messaging, and device
 Available SDKs
 --------------
 
-* **Flutter SDK** - Cross-platform audio/video calling for Android, iOS, Linux, macOS, Web, and Windows
+* **Flutter SDK** - Cross-platform audio/video calling for Android, iOS, Linux, macOS, and Windows
 
 .. note::
    Additional SDKs for other platforms are in development and will be added here once tested and stable.
@@ -52,7 +58,7 @@ Platform Support
 
 | SDK | Platforms | Status |
 |-----|-----------|--------|
-| Flutter | Android, iOS, Linux, macOS, Web, Windows | ✅ Stable |
+| Flutter | Android, iOS, Linux, macOS, Windows | ✅ Stable |
 
 Related SDKs
 ------------
@@ -66,10 +72,11 @@ Quick Links
 * `Getting Started <getting-started.html>`_
 * `Authentication Guide <guides/authentication.html>`_
 * `Error Handling <guides/error-handling.html>`_
+* `REST API Reference <rest-api.html>`_
 
 Support
 -------
 
 * **Documentation**: https://docs.nexacon.africa
-* **GitHub Issues**: https://github.com/nexacon/nexacon-docs/issues
+* **GitHub Issues**: https://github.com/jenadiusnicholaus/nexacon-docs/issues
 * **Email**: support@nexacon.africa

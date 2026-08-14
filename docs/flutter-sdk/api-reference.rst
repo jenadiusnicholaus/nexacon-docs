@@ -228,7 +228,7 @@ NexaconClient (Advanced)
 
     :param username: User's username or phone number
     :type username: String
-    :returns: NX token response containing ``token``, ``jid``, and ``nxws``
+    :returns: NX token response containing ``token``, ``nxid``, and ``nxws``
     :rtype: Future<Map<String, dynamic>>
 
 .. dart:method:: Future<Map<String, dynamic>> auth.refreshNxToken({required String refreshToken})
@@ -338,7 +338,7 @@ Devices
 
     :param fcmToken: FCM token for the device
     :type fcmToken: String
-    :param platform: Platform ('android', 'ios', or 'web')
+    :param platform: Platform ('android' or 'ios')
     :type platform: String
     :param deviceId: Unique device identifier
     :type deviceId: String?

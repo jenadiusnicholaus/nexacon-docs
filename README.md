@@ -6,7 +6,7 @@ Official documentation for Nexacon SDKs.
 
 This repository contains comprehensive documentation for the Nexacon SDKs.
 
-- **Flutter SDK** - Cross-platform audio/video calling for Android, iOS, Linux, macOS, Web, and Windows
+- **Flutter SDK** - Cross-platform audio/video calling for Android, iOS, Linux, macOS, and Windows
 
 Additional SDKs for other platforms will be added here once tested and stable.
 
@@ -71,7 +71,7 @@ To contribute to the documentation:
 ## Support
 
 - **Documentation**: https://docs.nexacon.africa
-- **GitHub Issues**: https://github.com/nexacon/nexacon-docs/issues
+- **GitHub Issues**: https://github.com/jenadiusnicholaus/nexacon-docs/issues
 - **Email**: support@nexacon.africa
 
 ## License

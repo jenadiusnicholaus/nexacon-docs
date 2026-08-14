@@ -13,7 +13,7 @@ Choose Your Platform
       :link: flutter-sdk/index.html
       :link-type: doc
 
-      Cross-platform audio/video calling for Android, iOS, Linux, macOS, Web, and Windows.
+      Cross-platform audio/video calling for Android, iOS, Linux, macOS, and Windows.
 
 .. note::
    Additional SDKs for other platforms are in development and will be added here once tested and stable.

@@ -8,8 +8,8 @@ Messaging
 
    * Send and receive text messages over WebSocket
    * Message history with offset-based pagination
-   * Typing indicators (XEP-0085)
-   * Delivery and read receipts (XEP-0184)
+   * Typing indicators
+   * Delivery and read receipts
    * Presence tracking (online/away/busy/offline)
    * Auto-reconnect with exponential backoff
 

@@ -16,7 +16,6 @@ Flutter SDK
   * Linux: GTK development libraries
   * macOS: Xcode command-line tools
   * Windows: Visual Studio 2022 with C++ workload
-  * Web: Chrome or Edge browser
 
 **Installation**
 
